@@ -92,7 +92,7 @@ class CacheTranslationCommand extends Command {
      * @return array
      */
     private function getGroups () {
-        return DB::table('translation_identifiers')->select('group')->groupBy('group')->get()->pluck('group');
+        return DB::table('translation_identifiers')->select('group')->groupBy(['group'])->get()->pluck('group');
     }
 
     /**
@@ -107,7 +107,7 @@ class CacheTranslationCommand extends Command {
 
         $trans_identifier = $trans_identifier->with('translations')->whereHas('translations', function ($item) use ($locale) {
             return $item->where('locale', $locale);
-        })->orWhereHas('translations', function ($item) {}, '<=', 0)
+        })->orWhereHas('translations', null, '<=', 0)
             ->get();
 
         return $trans_identifier;
