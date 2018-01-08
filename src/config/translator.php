@@ -86,7 +86,7 @@ return [
     |       .   └── <$group>.php
     |            ...
     */
-    /*'cache_path' => storage_path('framework/cache/lang/'),*/
+    'cache_path' => storage_path('framework/cache/lang/'),
 
 
     /*
