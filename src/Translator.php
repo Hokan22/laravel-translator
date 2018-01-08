@@ -61,11 +61,6 @@ class Translator
      */
     public function translate($identifier , $parameters = null, $locale = '') {
 
-        // Dump for easy debug
-        if ($identifier == 'dump_translator') {
-            return var_dump($this);
-        }
-
         // Validate the locale given as parameter or take the saved locale
         if ($locale !== '' || $this->locale === '') {
             $locale = $this->validateLocale($locale);
@@ -90,7 +85,6 @@ class Translator
 
             // Listener: When app is not in production and listening is enabled
             // add any missing translation identifier to the database
-            // config('app.env') !== 'production' &&
             if (self::$config['listening_enabled'] === true) {
                 $this->addMissingIdentifier($identifier, $parameters, 'default');
             }
@@ -117,7 +111,7 @@ class Translator
     /**
      * Sets the Handler
      * @param $locale
-     * @return array|string
+     * @return HandlerInterface
      */
     private function createHandler($locale) {
         // Get the Handler class from config file
@@ -241,10 +235,6 @@ class Translator
             // TODO: Make Prefix and Suffix configurable
             // If the string (e.g "{name}") is not specified within the "parameters" array it won't be replaced!
             $translation = str_replace("{".$key."}", $parameter, $translation);
-
-            // Use this command if for some reason escaped parameters should not be replaced with its values
-            // This is has a measurable impact on performance
-            //$translation = preg_replace("((?<=[^\\\]){".$key."})", $parameter, $translation);
         }
 
         return $translation;
@@ -280,8 +270,8 @@ class Translator
     public function validateLocale($locale) {
 
         //Get Locales configs from translator config file
-        $avail_locales      = self::$config['available_locales'];
-        $default_locale     = self::$config['default_locale'];
+        $avail_locales      = $this->config['available_locales'];
+        $default_locale     = $this->config['default_locale'];
 
         // If locale is already set and not empty it has already been checked
         if ($this->locale == $locale && $this->locale !== '') {
@@ -316,7 +306,7 @@ class Translator
                 $locale = $default_locale;
             }
             // Check if any Locale containing '$locale' was found previously
-            elseif (sizeof($found_locales) >= 1) {
+            elseif (count($found_locales, 0) >= 1) {
                 Log::warning('Locale "'.$locale.'" was not found! Falling back to similar locale "'.$found_locales[0].'"');
                 $locale = $found_locales[0];
             }
