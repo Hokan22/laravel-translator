@@ -32,7 +32,6 @@ class TranslatorMiddleware
         }
         else {
             // TODO: Validate Browser locale string (https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4)
-            //dd(explode(',', $request->header('accept-language')));
 
             Session::put('locale', TranslatorFacade::getConfigValue('default_locale'));
             Session::save();
