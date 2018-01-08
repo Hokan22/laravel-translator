@@ -39,7 +39,7 @@
         @if(!empty($translation))
             <i style="font-size: smaller">{{$translation->updated_at}}</i>
             <br/>
-            <textarea rows="4" cols="100" name="{{$locale}}">{{$translation->translation}}</textarea>
+            <textarea rows="4" cols="100" name="{{$locale}}">{{str_replace("<br />", "\n", $translation->translation)}}</textarea>
         @else
             <br/>
             <textarea rows="4" cols="100" name="{{$locale}}" placeholder="@t('Missing Translation')"></textarea>

@@ -83,6 +83,9 @@ class TranslatorAdminController extends Controller
                 continue;
             }
 
+            $value = str_replace("\r", "", $value);
+            $value = str_replace("\n", "<br />", $value);
+
             $timestamp = Carbon::now();
 
             // Eloquent doesn't support composite keys, therefore a raw query is used
