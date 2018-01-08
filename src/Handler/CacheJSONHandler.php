@@ -11,7 +11,7 @@ use Hokan22\LaravelTranslator\TranslatorFacade;
 class CacheJSONHandler implements HandlerInterface {
     /** @var string The locale to translate to */
     private $locale;
-    /** @var array Array with the identifiers as keys and the Texts object as value */
+    /** @var array|array[] Array with the identifiers as keys and the Texts object as value */
     private $translations;
 
     /**
@@ -75,7 +75,7 @@ class CacheJSONHandler implements HandlerInterface {
 
     /**
      * @param $group
-     * @return mixed
+     * @return array|mixed
      * @throws TranslationCacheNotFound
      */
     function getAllTranslations($group)

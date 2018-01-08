@@ -3,6 +3,7 @@
 namespace Hokan22\LaravelTranslator;
 
 use Hokan22\LaravelTranslator\Handler\DatabaseHandler;
+use Hokan22\LaravelTranslator\Handler\HandlerInterface;
 use Hokan22\LaravelTranslator\Handler\TranslationCacheNotFound;
 use Hokan22\LaravelTranslator\Handler\TranslationNotFoundException;
 use Hokan22\LaravelTranslator\Handler\TranslationNotInCacheException;
@@ -20,7 +21,7 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
  */
 class Translator
 {
-    /** @var array Class to Handle the Translation defined in config */
+    /** @var array|HandlerInterface[] Class to Handle the Translation defined in config */
     private $aHandler = [];
     /** @var string The locale to translate to  */
     private $locale = '';
@@ -327,6 +328,11 @@ class Translator
         return $locale;
     }
 
+    /**
+     * @param $locale
+     * @param $group
+     * @return array|mixed
+     */
     public function getAllTranslations($locale, $group) {
         return $this->aHandler[$locale]->getAllTranslations($group);
     }
