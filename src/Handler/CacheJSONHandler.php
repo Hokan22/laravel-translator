@@ -2,7 +2,7 @@
 
 namespace Hokan22\LaravelTranslator\Handler;
 
-use Hokan22\LaravelTranslator\Translator;
+use Hokan22\LaravelTranslator\TranslatorFacade;
 
 /**
  * Class LocaleHandler
@@ -59,7 +59,7 @@ class CacheJSONHandler implements HandlerInterface {
      */
     public function refreshCache($group = 'default') {
         // Construct the cache folder path from the cache base path defined in the config and the given locale
-        $locale_dir = Translator::getConfigValue('cache_path').$this->locale;
+        $locale_dir = TranslatorFacade::getConfigValue('cache_path').$this->locale;
 
         // If a Group is defined just get the translations from that group
         try {
