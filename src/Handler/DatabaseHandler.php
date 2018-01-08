@@ -74,7 +74,7 @@ class DatabaseHandler implements HandlerInterface
      * @param $group
      * @return mixed
      */
-    function getAllTranslations($group = 'default')
+    public function getAllTranslations($group = 'default')
     {
         $return = [];
         foreach (collect($this->translations)->where('group', $group) as $key => $translation) {

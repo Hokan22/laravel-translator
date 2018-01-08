@@ -78,7 +78,7 @@ class CacheJSONHandler implements HandlerInterface {
      * @return array|mixed
      * @throws TranslationCacheNotFound
      */
-    function getAllTranslations($group)
+    public function getAllTranslations($group)
     {
         if(!isset($this->translations[$group])) {
             $this->refreshCache($group);
