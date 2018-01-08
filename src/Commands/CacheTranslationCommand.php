@@ -60,7 +60,7 @@ class CacheTranslationCommand extends Command {
             if (!$this->confirm('Do you want to create it now?')) {
                 return;
             }
-            mkdir($file_path, 0600, true);
+            mkdir($file_path, 0775, true);
         }
 
         foreach ($groups as $key => $group) {
