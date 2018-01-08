@@ -1,0 +1,46 @@
+{
+    "name": "hokan22/laravel-translator",
+    "type": "library",
+    "description": "Flexible Laravel translator",
+    "keywords": [
+        "hokan22",
+        "laravel",
+        "language",
+        "multilang",
+        "translator"
+    ],
+    "homepage": "https://bitbucket.org/hokan22/laravel-translator",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexander Viertel",
+            "email": "bitbucket@aviertel.de",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "laravel/framework": ">=5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.0",
+        "orchestra/testbench": "~3.4",
+        "orchestra/database": "~3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hokan22\\LaravelTranslator\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Hokan22\\LaravelTranslator\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
