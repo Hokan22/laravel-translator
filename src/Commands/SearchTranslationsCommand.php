@@ -78,10 +78,6 @@ class SearchTranslationsCommand extends Command{
             'js'        => '/\$filter\(\'translate\'\)\(\'(?\'identifier\'.*?)\'\)/'
         ];
 
-        //$availableLanguages = TranslatorFacade::getConfigValue('available_locales');
-
-        $aTranslations = [];
-
         foreach($folders as $folder){
             $aFiles = array_merge($aFiles, File::allFiles(base_path().'/'.$folder));
         }
