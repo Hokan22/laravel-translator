@@ -85,7 +85,7 @@ class Translator
 
             // Listener: When app is not in production and listening is enabled
             // add any missing translation identifier to the database
-            if (self::$config['listening_enabled'] === true) {
+            if ($this->config['listening_enabled'] === true) {
                 $this->addMissingIdentifier($identifier, $parameters, 'default');
             }
 
@@ -115,7 +115,7 @@ class Translator
      */
     private function createHandler($locale) {
         // Get the Handler class from config file
-        $handler_class = self::$config['handler'];
+        $handler_class = $this->config['handler'];
         // Define message as empty for later check
         $message = '';
         $oHandler = null;
