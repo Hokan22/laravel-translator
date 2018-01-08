@@ -53,7 +53,7 @@ class Translator
 
     /**
      * @param $identifier
-     * @param null $parameters
+     * @param array|null $parameters
      * @param string $locale
      * @return string
      * @throws \Exception

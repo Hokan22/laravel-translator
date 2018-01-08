@@ -36,19 +36,20 @@ class SearchTranslationsCommand extends Command{
      */
     protected $description = "Searches through all used translations in PHP files. After gathering Strings to translate, they will be inserted into the Database for further treatment.";
 
-    /**
-     * Create a new command instance.
-     */
-    public function __construct(){
-        parent::__construct();
-    }
-
     private $found_identifier = 0;
     private $found_parameters = 0;
     private $found_invalid = 0;
     private $new_identifier = 0;
     private $dupl_identifier = 0;
 
+    private $bar;
+
+    /**
+     * Create a new command instance.
+     */
+    public function __construct(){
+        parent::__construct();
+    }
 
     /**
      * Execute the console command.

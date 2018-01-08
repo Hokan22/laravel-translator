@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property int        $id
  * @property string     $identifier
  * @property array      $parameters
+ * @property string     $group
  * @property string     $page_name
  * @property string     $description
  * @property Carbon     $created_at

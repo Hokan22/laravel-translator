@@ -108,6 +108,7 @@ class TranslatorAdminController extends Controller
      */
     public function postIdentifier (Request $request) {
 
+        /** @var TranslationIdentifier $translation_identifiers */
         $translation_identifiers = TranslationIdentifier::all()->whereIn('id', array_keys($request->all()));
 
         foreach ($request->all() as $id => $identifier) {

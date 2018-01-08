@@ -44,6 +44,7 @@ class CacheTranslationCommand extends Command {
      */
     public function handle() {
         // Get Parameters
+        /** @var string $locale */
         $locale = $this->argument('locale');
 
         //Set the Path where to cache translations to
