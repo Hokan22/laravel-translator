@@ -29,7 +29,7 @@ class Translator
     /** @var string The name of the config file */
     private $configName = 'translator';
     /** @var array */
-    private static $config;
+    private $config;
 
     /**
      * Translator constructor.
@@ -37,7 +37,7 @@ class Translator
      * @throws \Exception
      */
     public function __construct($locale = '') {
-        self::$config = Config::get($this->configName);
+        $this->config = Config::get($this->configName);
 
         $this->setLocale($locale);
     }
@@ -46,8 +46,8 @@ class Translator
      * @param $key
      * @return string|array
      */
-    public static function getConfigValue($key) {
-        return self::$config[$key];
+    public function getConfigValue($key) {
+        return $this->config[$key];
     }
 
     /**
