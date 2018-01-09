@@ -196,7 +196,7 @@ class Translator
                         "identifier"    => $identifier,
                         "parameters"    => $keys,
                         "group"         => isset($group) ? $group : 'default',
-                        "page_name"     => app()->runningInConsole() ? '' : Route::current()->uri,
+                        "page_name"     => app()->runningInConsole() ? '' : substr(request()->getRequestUri(), 1),
                     ]);
 
             if (isset($this->aHandler[$this->locale])) {
