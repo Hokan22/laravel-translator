@@ -52,6 +52,7 @@
     </tr>
 
     <form action="{{ route('translator.admin', ['search' => app('request')->input('search')]) }}" method="post">
+        {{ csrf_field() }}
         @foreach($identifier as $ident)
             <tr>
                 <td><a href="{{route('translator.admin.edit', ['id' => $ident->id])}}">{{$ident->id}}</a></td>

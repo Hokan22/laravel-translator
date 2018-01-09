@@ -79,7 +79,7 @@ class TranslatorAdminController extends Controller
 
         foreach ($request->all() as $key => $value) {
 
-            if ($value === null) {
+            if ($value === null || $key == '_token') {
                 continue;
             }
 

@@ -33,6 +33,7 @@
 
 <hr>
 <form action="" method="post">
+    {{ csrf_field() }}
     @foreach($available_locales as $locale)
         @php($translation = $identifier->translations->where('locale', $locale)->first())
         <span>{{$locale}}</span>
