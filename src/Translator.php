@@ -324,6 +324,10 @@ class Translator
      * @return array|mixed
      */
     public function getAllTranslations($locale, $group) {
+        if(!isset($this->aHandler[$locale])) {
+            $this->aHandler[$locale] = $this->createHandler($locale);
+        }
+
         return $this->aHandler[$locale]->getAllTranslations($group);
     }
 }
