@@ -25,7 +25,7 @@ class TranslatorAdminController extends Controller
         $locale = Input::get('locale', '');
         $search = Input::get('search', '');
 
-        $query = TranslationIdentifier::with('translations')->orderBy('updated_at', 'DESC')->orderBy('id', 'DESC');
+        $query = TranslationIdentifier::with('translations');
 
         if ($locale != '') {
             $query = TranslationIdentifier::wheredoesntHave('translations', function ($query) use ($locale) {
@@ -41,7 +41,7 @@ class TranslatorAdminController extends Controller
                                             ->orWhere('description','LIKE', '%'.$search.'%');
         }
 
-        $trans_identifier = $query->orderBy('updated_at', 'DESC')->orderBy('id', 'DESC')->paginate(20)->appends(Input::except('page'));
+        $trans_identifier = $query->orderBy('id')->paginate(20)->appends(Input::except('page'));
 
         $available_locales = TranslatorFacade::getConfigValue('available_locales');
 
