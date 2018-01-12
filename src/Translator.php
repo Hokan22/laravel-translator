@@ -100,11 +100,31 @@ class Translator
             $translation = $this->replaceParameter($translation, $parameters);
         }
 
+        if (session('translation_live_mode')) {
+            $translation = $this->addLiveModeLink($translation);
+        }
+
         // Return the translation
         return $translation;
     }
 
     /**
+     * @param $translation
+     * @return string
+     */
+    public function addLiveModeLink($translation) {
+
+        // TODO: Get ID From Translation
+        $route = route('translator.admin.edit', ['id' => 12]);
+
+        $inject = "<translation-anchor onclick='window.open(\"$route\", \"_blank\")' style='position: absolute; z-index: 999; cursor: pointer;'>&#9875;</translation-anchor>";
+
+        $translation = "$translation $inject";
+
+        return $translation;
+    }
+
+     /**
      * Sets the Handler
      * @param $locale
      * @return HandlerInterface
