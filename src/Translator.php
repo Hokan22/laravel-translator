@@ -4,14 +4,10 @@ namespace Hokan22\LaravelTranslator;
 
 use Hokan22\LaravelTranslator\Handler\DatabaseHandler;
 use Hokan22\LaravelTranslator\Handler\HandlerInterface;
-use Hokan22\LaravelTranslator\Handler\TranslationCacheNotFound;
 use Hokan22\LaravelTranslator\Handler\TranslationNotFoundException;
-use Hokan22\LaravelTranslator\Handler\TranslationNotInCacheException;
 use Hokan22\LaravelTranslator\Models\TranslationIdentifier;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
-use Prophecy\Exception\Doubler\ClassNotFoundException;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 
@@ -117,38 +113,17 @@ class Translator
         // Get the Handler class from config file
         $handler_class = $this->config['handler'];
         // Define message as empty for later check
-        $message = '';
         $oHandler = null;
 
-        // TODO: Redo as try catch block?
-        // Check if the class from the config exists and implements HandlerInterface
-        if (class_exists($handler_class) && is_a($handler_class, 'Hokan22\LaravelTranslator\Handler\HandlerInterface', TRUE)) {
-            $oHandler = $handler_class;
-        }
-        elseif (!class_exists($handler_class)) {
-            // If one of the previous check fails check if the class does not exists and set message accordingly
-            // As it could either be the class does not exist or does not implement HandlerInterface
-            // check only the shorter statement to improve readability
-            $message = "Handler '".$handler_class."' not found.";
-        }
-        else {
-            // If the class exists but the class does not implement HandlerInterface set the message accordingly
-            $message = "Handler '".$handler_class."' does not implement HandlerInterface.";
-        }
-
-        // Check if message is empty, if it is not one of the conditions for this class was not met.
-        // In that case print the message and fallback to the DatabaseHandler
-        if ($oHandler === null) {
-            Log::error(new ClassNotFoundException($message." Falling back to DatabaseHandler", $handler_class));
-            $oHandler = DatabaseHandler::class;
-        }
-
-        // TODO: Cleanup (avoid repetition)
         // Try to create new Instance of Handler and return it
+        // If creating the Handler fails or it does not implement HandlerInterface the DatabaseHandler will be used
         try {
-             $oHandler = new $oHandler($locale);
+            $oHandler = new $handler_class($locale);
+            if (!is_a($handler_class, 'Hokan22\LaravelTranslator\Handler\HandlerInterface', TRUE)) {
+                throw new \Exception($handler_class . ' does not implement HandlerInterface!');
+            }
         }
-        catch (TranslationCacheNotFound $exception) {
+        catch (\Exception $exception) {
             // Log error and fallback procedure
             Log::error($exception);
             Log::warning('Falling back to DatabaseHandler');
