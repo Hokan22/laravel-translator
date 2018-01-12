@@ -55,10 +55,10 @@ class Translator
      * @throws \Exception
      * TODO: Make function Parameters interchangeable
      */
-    public function translate($identifier , $parameters = null, $locale = '') {
+    public function translate($identifier , $parameters = null, $locale = null) {
 
         // Validate the locale given as parameter or take the saved locale
-        if ($locale !== '' || $this->locale === '') {
+        if ($locale !== null) {
             $locale = $this->validateLocale($locale);
         } else {
             $locale = $this->locale;
@@ -137,6 +137,7 @@ class Translator
 
     /**
      * @param $locale
+     * @return void
      */
     public function setLocale($locale) {
         $locale = $this->validateLocale($locale);
@@ -153,10 +154,11 @@ class Translator
      * @param $identifier
      * @param $parameters
      * @param $group
+     * @return void
      */
     public function addMissingIdentifier($identifier, $parameters, $group) {
 
-        if(! $this->hasIdentifier($identifier)) {
+        if(!$this->hasIdentifier($identifier)) {
 
             // Save only the keys from the parameter array
             $keys = [];
@@ -256,7 +258,7 @@ class Translator
         }
 
         // Fallback if empty locale was given (should be handled in middleware)
-        if ($locale == ''){
+        if ($locale == null){
             if (session()->get('locale') != '') {
                 $locale = session()->get('locale');
             }

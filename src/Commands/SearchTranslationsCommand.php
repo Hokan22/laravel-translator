@@ -175,7 +175,7 @@ class SearchTranslationsCommand extends Command{
                     $this->dupl_identifier++;
                 }
 
-            }catch(\Exception $e){
+            } catch(\Exception $e){
                 $this->bar->clear();
                 $this->info($identifier.' '.strlen($identifier));
                 $this->info($e->getMessage());
