@@ -243,6 +243,8 @@ class Translator
      * @return string
      */
     public function validateLocale($locale) {
+        // Set message for later log warning
+        $message = '';
 
         //Get Locales configs from translator config file
         $avail_locales      = $this->config['available_locales'];
@@ -277,18 +279,20 @@ class Translator
 
             // Check if default locale is inside the found locales. If it was, use it!
             if (in_array($default_locale, $found_locales)){
-                Log::warning('Locale "'.$locale.'" was not found! Falling back to default locale "'.$default_locale.'"');
+                $message = 'Locale "'.$locale.'" was not found! Falling back to default locale "'.$default_locale.'"';
                 $locale = $default_locale;
             }
             // Check if any Locale containing '$locale' was found previously
             elseif (count($found_locales, 0) >= 1) {
-                Log::warning('Locale "'.$locale.'" was not found! Falling back to similar locale "'.$found_locales[0].'"');
+                $message = 'Locale "'.$locale.'" was not found! Falling back to similar locale "'.$found_locales[0].'"';
                 $locale = $found_locales[0];
             }
             else {
                 throw new NotFoundResourceException("Locale '".$locale."' was not found in available locales");
             }
         }
+
+        if ($message !== '') Log::warning($message);
 
         return $locale;
     }
