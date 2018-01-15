@@ -3,8 +3,9 @@
 /**
  * Middleware
  *
- * @author Alexander Viertel
  * @package Hokan22\LaravelTranslator\Provider
+ *
+ * @author Alexander Viertel <alexander@aviertel.de>
  */
 namespace Hokan22\LaravelTranslator\Provider;
 
@@ -16,10 +17,12 @@ use Illuminate\Support\Str;
 /**
  * Class TranslatorBladeProvider
  *
- * @category    Provider
- * @author      Alexander Viertel
- * @license     MIT
- * @link        https://github.com/Hokan22/laravel-translator
+ * @package Hokan22\LaravelTranslator\Provider
+ *
+ * @category Provider
+ * @author Alexander Viertel <alexander@aviertel.de>
+ * @license http://opensource.org/licenses/MIT MIT
+ * @link https://github.com/Hokan22/laravel-translator
  */
 class TranslatorBladeProvider extends ServiceProvider
 {

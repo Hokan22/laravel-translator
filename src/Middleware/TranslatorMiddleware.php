@@ -3,8 +3,9 @@
 /**
  * Middleware
  *
- * @author Alexander Viertel
  * @package Hokan22\LaravelTranslator\Middleware
+ *
+ * @author Alexander Viertel <alexander@aviertel.de>
  */
 namespace Hokan22\LaravelTranslator\Middleware;
 
@@ -16,10 +17,12 @@ use Illuminate\Support\Facades\Session;
 /**
  * Class LocaleHandler
  *
- * @category    TranslatorMiddleware
- * @author      Alexander Viertel
- * @license     MIT
- * @link        https://github.com/Hokan22/laravel-translator
+ * @package Hokan22\LaravelTranslator\Middleware
+ *
+ * @category TranslatorMiddleware
+ * @author Alexander Viertel <alexander@aviertel.de>
+ * @license http://opensource.org/licenses/MIT MIT
+ * @link https://github.com/Hokan22/laravel-translator
  */
 class TranslatorMiddleware
 {

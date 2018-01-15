@@ -2,8 +2,9 @@
 /**
  * Routes
  *
- * @author Alexander Viertel
  * @package Hokan22\LaravelTranslator\resources
+ *
+ * @author Alexander Viertel <alexander@aviertel.de>
  */
 
 if (! Hokan22\LaravelTranslator\TranslatorFacade::getConfigValue('custom_routes'))

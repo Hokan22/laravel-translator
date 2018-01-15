@@ -3,8 +3,9 @@
 /**
  * Translation handler for cached translations in JSON Format
  *
- * @author Alexander Viertel
  * @package Hokan22\LaravelTranslator\Handler
+ *
+ * @author Alexander Viertel <alexander@aviertel.de>
  */
 namespace Hokan22\LaravelTranslator\Handler;
 
@@ -14,10 +15,12 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 /**
  * Class LocaleHandler
  *
- * @category    TranslatorHandler
- * @author      Alexander Viertel
- * @license     MIT
- * @link        https://github.com/Hokan22/laravel-translator
+ * @package Hokan22\LaravelTranslator\Handler
+ *
+ * @category TranslatorHandler
+ * @author Alexander Viertel <alexander@aviertel.de>
+ * @license http://opensource.org/licenses/MIT MIT
+ * @link https://github.com/Hokan22/laravel-translator
  */
 class DatabaseHandler implements HandlerInterface
 {

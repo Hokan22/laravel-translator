@@ -3,8 +3,9 @@
 /**
  * Middleware
  *
- * @author Alexander Viertel
  * @package Hokan22\LaravelTranslator\Models
+ *
+ * @author Alexander Viertel <alexander@aviertel.de>
  */
 namespace Hokan22\LaravelTranslator\Models;
 
@@ -16,10 +17,12 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * Class Translations
  *
- * @category    TranslatorMiddleware
- * @author      Alexander Viertel
- * @license     MIT
- * @link        https://github.com/Hokan22/laravel-translator
+ * @package Hokan22\LaravelTranslator\Models
+ *
+ * @category TranslatorMiddleware
+ * @author Alexander Viertel <alexander@aviertel.de>
+ * @license http://opensource.org/licenses/MIT MIT
+ * @link https://github.com/Hokan22/laravel-translator
  *
  *
  * @property int        $id

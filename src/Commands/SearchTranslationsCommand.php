@@ -3,8 +3,9 @@
 /**
  * Artisan Command to identify unused translation identifier in the database.
  *
- * @author Alexander Viertel
  * @package Hokan22\LaravelTranslator\commands
+ *
+ * @author Alexander Viertel <alexander@aviertel.de>
  */
 namespace Hokan22\LaravelTranslator\commands;
 
@@ -16,10 +17,12 @@ use Symfony\Component\Console\Helper\ProgressBar;
 /**
  * Class SearchTranslationsCommand
  *
- * @category    ArtisanCommand
- * @author      Alexander Viertel
- * @license     MIT
- * @link        https://github.com/Hokan22/laravel-translator
+ * @package Hokan22\LaravelTranslator\commands
+ *
+ * @category ArtisanCommand
+ * @author Alexander Viertel <alexander@aviertel.de>
+ * @license http://opensource.org/licenses/MIT MIT
+ * @link https://github.com/Hokan22/laravel-translator
  */
 class SearchTranslationsCommand extends Command
 {

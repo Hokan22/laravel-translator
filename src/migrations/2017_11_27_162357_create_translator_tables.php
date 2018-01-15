@@ -7,10 +7,12 @@ use Illuminate\Database\Migrations\Migration;
 /**
  * Translator Migration
  *
- * @category    Migration
- * @author      Alexander Viertel
- * @license     MIT
- * @link        https://github.com/Hokan22/laravel-translator
+ * @package Hokan22\LaravelTranslator\migrations
+ *
+ * @category Migration
+ * @author Alexander Viertel <alexander@aviertel.de>
+ * @license http://opensource.org/licenses/MIT MIT
+ * @link https://github.com/Hokan22/laravel-translator
  */
 class CreateTranslatorTables extends Migration
 {

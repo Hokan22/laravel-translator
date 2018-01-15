@@ -3,8 +3,9 @@
 /**
  * Interface to be implemented by all Handlers
  *
- * @author Alexander Viertel
  * @package Hokan22\LaravelTranslator\Handler
+ *
+ * @author Alexander Viertel <alexander@aviertel.de>
  */
 namespace Hokan22\LaravelTranslator\Handler;
 
@@ -16,10 +17,12 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
  *
  * Class TranslationNotFoundException
  *
- * @category    TranslatorHandler
- * @author      Alexander Viertel
- * @license     MIT
- * @link        https://github.com/Hokan22/laravel-translator
+ * @package Hokan22\LaravelTranslator\Handler
+ *
+ * @category TranslatorHandler
+ * @author Alexander Viertel <alexander@aviertel.de>
+ * @license http://opensource.org/licenses/MIT MIT
+ * @link https://github.com/Hokan22/laravel-translator
  */
 class TranslationNotFoundException extends \Exception {}
 
@@ -28,10 +31,10 @@ class TranslationNotFoundException extends \Exception {}
  *
  * Class TranslationNotInCacheException
  *
- * @category    TranslatorHandler
- * @author      Alexander Viertel
- * @license     MIT
- * @link        https://github.com/Hokan22/laravel-translator
+ * @category TranslatorHandler
+ * @author Alexander Viertel <alexander@aviertel.de>
+ * @license http://opensource.org/licenses/MIT MIT
+ * @link https://github.com/Hokan22/laravel-translator
  */
 class TranslationNotInCacheException extends TranslationNotFoundException {}
 
@@ -40,20 +43,20 @@ class TranslationNotInCacheException extends TranslationNotFoundException {}
  *
  * Class TranslationCacheNotFound
  *
- * @category    TranslatorHandler
- * @author      Alexander Viertel
- * @license     MIT
- * @link        https://github.com/Hokan22/laravel-translator
+ * @category TranslatorHandler
+ * @author Alexander Viertel <alexander@aviertel.de>
+ * @license http://opensource.org/licenses/MIT MIT
+ * @link https://github.com/Hokan22/laravel-translator
  */
 class TranslationCacheNotFound extends \Exception {}
 
 /**
  * Interface HandlerInterface
  *
- * @category    TranslatorHandler
- * @author      Alexander Viertel
- * @license     MIT
- * @link        https://github.com/Hokan22/laravel-translator
+ * @category TranslatorHandler
+ * @author Alexander Viertel <alexander@aviertel.de>
+ * @license http://opensource.org/licenses/MIT MIT
+ * @link https://github.com/Hokan22/laravel-translator
  */
 interface HandlerInterface
 {

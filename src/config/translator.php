@@ -3,7 +3,7 @@
 /**
  * Translator Config File
  *
- * @author      alexander
+ * @author Alexander Viertel <alexander@aviertel.de>
  */
 
 return [

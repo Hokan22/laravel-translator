@@ -3,8 +3,9 @@
 /**
  * Translator
  *
- * @author Alexander Viertel
  * @package Hokan22\LaravelTranslator
+ *
+ * @author Alexander Viertel <alexander@aviertel.de>
  */
 namespace Hokan22\LaravelTranslator;
 
@@ -20,10 +21,12 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 /**
  * Class Translator
  *
- * @category    Translator
- * @author      Alexander Viertel
- * @license     MIT
- * @link        https://github.com/Hokan22/laravel-translator
+ * @package Hokan22\LaravelTranslator
+ *
+ * @category Translator
+ * @author Alexander Viertel <alexander@aviertel.de>
+ * @license http://opensource.org/licenses/MIT MIT
+ * @link https://github.com/Hokan22/laravel-translator
  */
 class Translator
 {
