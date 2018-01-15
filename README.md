@@ -66,7 +66,7 @@ After you registered the TranslatorBladeServiceProvider you can use the ```@t()`
 Parameters are simply surrounded by `{}` and their replacement provided as an array as the second parameter of the blade translate directive.
 
 ```
-@t('Visit the site {link}.', ['link' => '<a href="example.com">here</a>'])
+@t('Visit the site {link}.', ['link' => '<a href="example.com">LaravelTranslator</a>'])
 ```
 
 ### Custom Translation Handler
