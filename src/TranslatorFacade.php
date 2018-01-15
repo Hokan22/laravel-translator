@@ -1,23 +1,22 @@
 <?php
-/*
- * File:     TranslatorFacade.php
- * Category: -
- * Author:   alexander
- * Created:  22.11.17 16:23
- * Updated:  -
+
+/**
+ * Translator
  *
- * Description:
- *  -
+ * @author Alexander Viertel
+ * @package Hokan22\LaravelTranslator
  */
-
-
 namespace Hokan22\LaravelTranslator;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
  * Class TranslatorFacade
- * @package Hokan22\LaravelTranslator
+ *
+ * @category    Translator
+ * @author      Alexander Viertel
+ * @license     MIT
+ * @link        https://github.com/Hokan22/laravel-translator
  *
  * @method static string    getConfigValue($key)
  * @method static string    translate($identifier , $parameters = null, $locale = '')

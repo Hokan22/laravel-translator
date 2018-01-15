@@ -1,17 +1,13 @@
 <?php
-/*
- * File:     translator.php
- * Category: -
- * Author:   alexander
- * Created:  22.11.17 16:31
- * Updated:  -
+
+/**
+ * Translator Config File
  *
- * Description:
- *  -
+ * @author      alexander
  */
 
 return [
-    // TODO: Add Translation Groups to config File
+    /** @todo Add Translation Groups to config File */
 
     /*
     |--------------------------------------------------------------------------

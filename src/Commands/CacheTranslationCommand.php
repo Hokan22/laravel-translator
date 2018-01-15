@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Artisan Command to cache Translations from the Database.
+ *
+ * @author Alexander Viertel
+ * @package Hokan22\LaravelTranslator\commands
+ */
 namespace Hokan22\LaravelTranslator\Commands;
 
 use Hokan22\LaravelTranslator\Models\TranslationIdentifier;
@@ -10,9 +16,14 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Class CacheTranslationCommand
- * @package Hokan22\LaravelTranslator\commands
+ *
+ * @category    ArtisanCommand
+ * @author      Alexander Viertel
+ * @license     MIT
+ * @link        https://github.com/Hokan22/laravel-translator
  */
-class CacheTranslationCommand extends Command {
+class CacheTranslationCommand extends Command
+{
 
     /**
      * The name and signature of the console command.
@@ -33,7 +44,8 @@ class CacheTranslationCommand extends Command {
     /**
      * Create a new command instance.
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
@@ -41,10 +53,11 @@ class CacheTranslationCommand extends Command {
      * Execute the command.
      *
      * @throws \Exception
+     * @return void
      */
-    public function handle() {
+    public function handle()
+    {
         // Get Parameters
-        /** @var string $locale */
         $locale = $this->argument('locale');
 
         //Set the Path where to cache translations to
@@ -92,23 +105,27 @@ class CacheTranslationCommand extends Command {
      *
      * @return array
      */
-    private function getGroups () {
+    protected function getGroups()
+    {
         return DB::table('translation_identifiers')->select('group')->groupBy(['group'])->get()->pluck('group');
     }
 
     /**
      * Get all translation identifier with translation from the given locale
      *
-     * @param $locale
+     * @param string $locale The locale from which the translations to load
      * @return TranslationIdentifier|\Illuminate\Database\Eloquent\Collection|static[]
      */
-    private function loadFromDB ($locale) {
+    protected function loadFromDB($locale)
+    {
         // Get all Texts with translations for the given locale
         $trans_identifier =   new TranslationIdentifier();
 
-        $trans_identifier = $trans_identifier->with('translations')->whereHas('translations', function ($item) use ($locale) {
+        $trans_identifier = $trans_identifier->with('translations')->whereHas('translations', function ($item) use ($locale)
+        {
             return $item->where('locale', $locale);
-        })->orWhereHas('translations', null, '<=', 0)
+        })
+            ->orWhereHas('translations', null, '<=', 0)
             ->get();
 
         return $trans_identifier;

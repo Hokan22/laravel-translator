@@ -1,50 +1,72 @@
 <?php
 
+/**
+ * Translation handler for cached translations in JSON Format
+ *
+ * @author Alexander Viertel
+ * @package Hokan22\LaravelTranslator\Handler
+ */
 namespace Hokan22\LaravelTranslator\Handler;
 
 use Hokan22\LaravelTranslator\TranslatorFacade;
 
 /**
- * Class LocaleHandler
- * @package Hokan22\LaravelTranslator\
+ * Class CacheJSONHandler
+ *
+ * @category    TranslatorHandler
+ * @author      Alexander Viertel
+ * @license     MIT
+ * @link        https://github.com/Hokan22/laravel-translator
  */
-class CacheJSONHandler implements HandlerInterface {
-    /** @var string The locale to translate to */
-    private $locale;
-    /** @var array|array[] Array with the identifiers as keys and the Texts object as value */
-    private $translations;
+class CacheJSONHandler implements HandlerInterface
+{
+    /**
+     * @var string          $locale         The locale to translate to
+     * @var array|array[]   $translations   Array with the identifiers as keys and the Texts object as value
+     */
+    protected $locale, $translations;
 
     /**
      * DatabaseHandler constructor.
-     * @param string $locale
+     *
+     * @param string $locale The locale of the translations
+     *
      * @throws TranslationCacheNotFound
      */
-    public function __construct($locale) {
+    public function __construct($locale)
+    {
         $this->locale   = $locale;
 
         $this->refreshCache();
     }
 
     /**
+     * Returns the currently set locale
+     *
      * @return string Return the locale to translate to
      */
-    public function getLocale() {
+    public function getLocale()
+    {
         return $this->locale;
     }
 
     /**
-     * @param $identifier string Identifier for the database query
+     * Returns the translation for the given identifier
+     *
+     * @param string $identifier Identifier for the database query
      * @param string $group
-     * @return string returns the found translation for locale and identifier
+     *
      * @throws TranslationNotInCacheException
+     *
+     * @return string returns the found translation for locale and identifier
      */
-    public function getTranslation($identifier, $group = 'default') {
-
+    public function getTranslation($identifier, $group = 'default')
+    {
         // Return translation if found otherwise return TranslationNotInCacheException
         // NOTE: This should never trigger the addition of the identifier to the database,
         // because the cache will not be updated automatically.
         // So not finding the same identifier twice in the cache, will result in an error.
-        if(isset($this->translations[$group][$identifier])) {
+        if (isset($this->translations[$group][$identifier])) {
             return $this->translations[$group][$identifier];
         }
         else {
@@ -54,18 +76,20 @@ class CacheJSONHandler implements HandlerInterface {
 
     /**
      * Refresh the internal Cache
+     *
      * @param string $group
+     *
      * @throws TranslationCacheNotFound
      */
-    public function refreshCache($group = 'default') {
+    public function refreshCache($group = 'default')
+    {
         // Construct the cache folder path from the cache base path defined in the config and the given locale
         $locale_dir = TranslatorFacade::getConfigValue('cache_path').$this->locale;
 
         // If a Group is defined just get the translations from that group
         try {
              $trans_identifier = json_decode(file_get_contents($locale_dir.'/'.$group.'.json'), true);
-        }
-        catch (\ErrorException $e) {
+        } catch (\ErrorException $e) {
             throw new TranslationCacheNotFound("The Translation cache file '".$locale_dir.'/'.$group.'.json'."' could not be found!");
         }
 
@@ -74,13 +98,17 @@ class CacheJSONHandler implements HandlerInterface {
     }
 
     /**
-     * @param $group
-     * @return array|mixed
+     * Get all translation of $group
+     *
+     * @param string $group Group of the translations to return
+     *
      * @throws TranslationCacheNotFound
+     *
+     * @return array|mixed Translations of the given group
      */
     public function getAllTranslations($group)
     {
-        if(!isset($this->translations[$group])) {
+        if (!isset($this->translations[$group])) {
             $this->refreshCache($group);
         }
         return $this->translations[$group];

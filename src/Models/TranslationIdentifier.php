@@ -1,15 +1,11 @@
 <?php
-/*
- * File:     TranslationIdentifier.php
- * Category: Model
- * Author:   alexander
- * Created:  13.11.2017 12:20
- * Updated:  -
- *
- * Description:
- *  -
- */
 
+/**
+ * Middleware
+ *
+ * @author Alexander Viertel
+ * @package Hokan22\LaravelTranslator\Models
+ */
 namespace Hokan22\LaravelTranslator\Models;
 
 use Carbon\Carbon;
@@ -19,7 +15,11 @@ use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class TranslationIdentifier
- * @package App\Models
+ *
+ * @category    TranslatorMiddleware
+ * @author      Alexander Viertel
+ * @license     MIT
+ * @link        https://github.com/Hokan22/laravel-translator
  *
  * @property int        $id
  * @property string     $identifier
@@ -43,12 +43,11 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|TranslationIdentifier whereHas($relation, \Closure $callback = null, $operator = '>=', $count = 1)
  * @method static Builder|TranslationIdentifier where($column, $operator = null, $value = null, $boolean = 'and')
  */
-class TranslationIdentifier extends Model {
-
+class TranslationIdentifier extends Model
+{
     /**
-     * @var array
+     * @var array $fillable Database fields fillable by eloquent
      */
-    // TODO: Translation Group (JS, Server)
     protected $fillable = [
         'identifier',
         'parameters',
@@ -62,9 +61,12 @@ class TranslationIdentifier extends Model {
     ];
 
     /**
+     * Returns the relation to the Translations
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function translations(){
+    public function translations()
+    {
         return $this->hasMany(Translations::class);
     }
 

@@ -4,6 +4,14 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * Translator Migration
+ *
+ * @category    Migration
+ * @author      Alexander Viertel
+ * @license     MIT
+ * @link        https://github.com/Hokan22/laravel-translator
+ */
 class CreateTranslatorTables extends Migration
 {
     /**
@@ -16,9 +24,8 @@ class CreateTranslatorTables extends Migration
         DB::beginTransaction();
 
         // Create table for storing roles
-        // TODO: Make identifier strings varchar 255
-        Schema::create('translation_identifiers', function (Blueprint $table) {
-
+        Schema::create('translation_identifiers', function (Blueprint $table)
+        {
             $table->increments('id')->unique();
             $table->text('identifier');
 
@@ -32,8 +39,8 @@ class CreateTranslatorTables extends Migration
         });
 
         // Create table for storing roles
-        Schema::create('translations', function (Blueprint $table) {
-
+        Schema::create('translations', function (Blueprint $table)
+        {
             $table->integer('translation_identifier_id')->unsigned();
             $table->foreign('translation_identifier_id')->references('id')->on('translation_identifiers')->onDelete('no action')->onUpdate('no action');
 

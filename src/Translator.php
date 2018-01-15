@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Translator
+ *
+ * @author Alexander Viertel
+ * @package Hokan22\LaravelTranslator
+ */
 namespace Hokan22\LaravelTranslator;
 
 use Hokan22\LaravelTranslator\Handler\DatabaseHandler;
@@ -13,50 +19,67 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 /**
  * Class Translator
- * @package Hokan22\LaravelTranslator\
+ *
+ * @category    Translator
+ * @author      Alexander Viertel
+ * @license     MIT
+ * @link        https://github.com/Hokan22/laravel-translator
  */
 class Translator
 {
-    /** @var array|HandlerInterface[] Class to Handle the Translation defined in config */
-    private $aHandler = [];
-    /** @var string The locale to translate to  */
-    private $locale = '';
-    /** @var string The translation group */
-    private $group = 'default';
-    /** @var string The name of the config file */
-    private $configName = 'translator';
-    /** @var array */
-    private $config;
+    /** @var array|HandlerInterface[] $aHandler Class to Handle the Translation defined in config */
+    protected $aHandler = [];
+    /** @var string $locale The locale to translate to  */
+    protected $locale = '';
+    /** @var string $group The translation group */
+    protected $group = 'default';
+    /** @var string $configName The name of the config file */
+    protected $configName = 'translator';
+    /** @var array $config Config cache */
+    protected $config;
 
     /**
      * Translator constructor.
-     * @param string $locale
+     *
+     * @param string $locale The locale to translate to
+     *
      * @throws \Exception
      */
-    public function __construct($locale = '') {
+    public function __construct($locale = '')
+    {
         $this->config = Config::get($this->configName);
 
         $this->setLocale($locale);
     }
 
     /**
-     * @param $key
-     * @return string|array
+     * Return the config value for given key
+     *
+     * @param string $key Key for the config value to get
+     *
+     * @return string|array Config value for $key
      */
-    public function getConfigValue($key) {
+    public function getConfigValue($key)
+    {
         return $this->config[$key];
     }
 
     /**
-     * @param $identifier
-     * @param array|null $parameters
-     * @param string $locale
-     * @return string
+     * Actual translate function
+     * $parameter and $locale are optional
+     *
+     * @param string $identifier The identifier of the translation
+     * @param array|null $parameters The parameters to inject into the translation
+     * @param string $locale The locale to which to translate to overrides the class location for one translation
+     *
      * @throws \Exception
-     * TODO: Make function Parameters interchangeable
+     *
+     * @return string Returns the translation with replaced parameters
+     *
+     * @todo Make function Parameters interchangeable
      */
-    public function translate($identifier , $parameters = null, $locale = null) {
-
+    public function translate($identifier, $parameters = null, $locale = null)
+    {
         // Validate the locale given as parameter or take the saved locale
         if ($locale !== null) {
             $locale = $this->validateLocale($locale);
@@ -73,9 +96,9 @@ class Translator
         // Based on the internal translate function, the getTranslation can throw exceptions
         try {
             $translation = $this->aHandler[$locale]->getTranslation($identifier, $this->group);
-        }
-        // Thrown when the Identifier wasn't found
-        catch (NotFoundResourceException $exception) {
+
+        } catch (NotFoundResourceException $exception) {
+            // Thrown when the Identifier wasn't found
             // Log exception as error in Laravel log
             Log::error($exception);
 
@@ -86,9 +109,9 @@ class Translator
             }
 
             return $this->returnMissingTranslation($identifier, $locale);
-        }
-        // Thrown when no translation for the locale was found
-        catch (TranslationNotFoundException $exception) {
+
+        } catch (TranslationNotFoundException $exception) {
+            // Thrown when no translation for the locale was found
             // Log exception as error in Laravel log
             Log::error($exception);
 
@@ -105,11 +128,14 @@ class Translator
     }
 
     /**
-     * Sets the Handler
-     * @param $locale
+     * Creates the Handler for the given locale
+     *
+     * @param string $locale The locale for which to create a handler
+     *
      * @return HandlerInterface
      */
-    private function createHandler($locale) {
+    protected function createHandler($locale)
+    {
         // Get the Handler class from config file
         $handler_class = $this->config['handler'];
         // Define message as empty for later check
@@ -119,11 +145,10 @@ class Translator
         // If creating the Handler fails or it does not implement HandlerInterface the DatabaseHandler will be used
         try {
             $oHandler = new $handler_class($locale);
-            if (!is_a($handler_class, 'Hokan22\LaravelTranslator\Handler\HandlerInterface', TRUE)) {
+            if (!is_a($handler_class, 'Hokan22\LaravelTranslator\Handler\HandlerInterface', true)) {
                 throw new \Exception($handler_class . ' does not implement HandlerInterface!');
             }
-        }
-        catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             // Log error and fallback procedure
             Log::error($exception);
             Log::warning('Falling back to DatabaseHandler');
@@ -131,15 +156,16 @@ class Translator
             // Fallback to Database Handler
             $oHandler = new DatabaseHandler($locale);
         }
-
         return $oHandler;
     }
 
     /**
-     * @param $locale
-     * @return void
+     * Set the locale to use in translations
+     *
+     * @param string $locale The locale to use
      */
-    public function setLocale($locale) {
+    public function setLocale($locale)
+    {
         $locale = $this->validateLocale($locale);
 
         if (!isset($this->aHandler[$locale])) {
@@ -151,14 +177,14 @@ class Translator
 
     /**
      * Add the missing identifier to the texts table in the database
-     * @param $identifier
-     * @param $parameters
-     * @param $group
-     * @return void
+     *
+     * @param string $identifier The identifier to add to the db
+     * @param array $parameters The parameters available for the translation
+     * @param string $group The group to put the identifier in
      */
-    public function addMissingIdentifier($identifier, $parameters, $group) {
-
-        if(!$this->hasIdentifier($identifier)) {
+    public function addMissingIdentifier($identifier, $parameters, $group)
+    {
+        if (!$this->hasIdentifier($identifier)) {
 
             // Save only the keys from the parameter array
             $keys = [];
@@ -167,53 +193,58 @@ class Translator
                     $keys[] = $key;
                 }
             }
-
             // Create new TranslationIdentifier with parameters and current url
-            TranslationIdentifier::create([
-                        "identifier"    => $identifier,
-                        "parameters"    => $keys,
-                        "group"         => isset($group) ? $group : 'default',
-                        "page_name"     => app()->runningInConsole() ? '' : substr(request()->getRequestUri(), 1),
-                    ]);
+            TranslationIdentifier::create(
+                [
+                    "identifier"    => $identifier,
+                    "parameters"    => $keys,
+                    "group"         => isset($group) ? $group : 'default',
+                    "page_name"     => app()->runningInConsole() ? '' : substr(request()->getRequestUri(), 1),
+                ]
+            );
 
             if (isset($this->aHandler[$this->locale])) {
                 // refresh the Cache for the handler
                 // When using file Cache, adding the Identifier to the Database will not add it to file Cache!
                 $this->aHandler[$this->locale]->refreshCache();
             }
-
             // Print notice about creation to laravel log
             Log::notice('The translation string "'.$identifier.'" will be written to the Database');
-        }
-        else {
+        } else {
             Log::warning('The translation string "'.$identifier.'" is already in the Database!');
         }
     }
 
     /**
      * Check if the identifier exists in the database
-     * @param $identifier
-     * @return boolean
+     *
+     * @param string $identifier The identifier to check
+     *
+     * @return boolean Returns true if the identifier was found
      */
-    public function hasIdentifier($identifier) {
+    public function hasIdentifier($identifier)
+    {
         // Returns true if at least one identifier was found
         return TranslationIdentifier::where('identifier', $identifier)->count() > 0;
     }
 
     /**
-     * @param $translation
-     * @param $parameters
-     * @return string
+     * Replace the parameters in the translation
+     *
+     * @param string $translation The translation with the parameter tags
+     * @param array $parameters The parameters which to inject in the translation
+     *
+     * @return string Returns the translation which its parameters replaced
+     *
+     * @todo Make Prefix and Suffix configurable
      */
-    private function replaceParameter ($translation, $parameters) {
-
+    protected function replaceParameter($translation, $parameters)
+    {
         // Go through each specified Parameter and replace its placeholder "{$key}"
-       foreach ($parameters as $key => $parameter) {
-            // TODO: Make Prefix and Suffix configurable
+        foreach ($parameters as $key => $parameter) {
             // If the string (e.g "{name}") is not specified within the "parameters" array it won't be replaced!
             $translation = str_replace("{".$key."}", $parameter, $translation);
         }
-
         return $translation;
     }
 
@@ -221,13 +252,15 @@ class Translator
      * Instead of the translation echo back 'Missing Translation' (when not in production!)
      * and show the translation identifier ($identifier) and the locale
      *
-     * @param $identifier
-     * @param $locale
-     * @return string
+     * @param string $identifier The identifier which is missing
+     * @param string $locale The locale of which the translation is missing
+     *
      * @throws \Exception
+     *
+     * @return string The string to display instead of the translation
      */
-    private function returnMissingTranslation ($identifier, $locale) {
-
+    protected function returnMissingTranslation($identifier, $locale)
+    {
         // Return identifier and locale for easier debug
         if (config('app.env') !== 'production') {
             return '&lt;'.$identifier.':'.$locale.'&gt;';
@@ -240,11 +273,14 @@ class Translator
      * If no locale was given, first try the locale from the session
      * If the Session has no
      *
-     * @param string $locale
+     * @param string $locale The locale to validate
+     *
      * @throws NotFoundResourceException
-     * @return string
+     *
+     * @return string Returns the validated Locale
      */
-    public function validateLocale($locale) {
+    protected function validateLocale($locale)
+    {
         // Set message for later log warning
         $message = '';
 
@@ -283,13 +319,12 @@ class Translator
             if (in_array($default_locale, $found_locales)){
                 $message = 'Locale "'.$locale.'" was not found! Falling back to default locale "'.$default_locale.'"';
                 $locale = $default_locale;
-            }
-            // Check if any Locale containing '$locale' was found previously
-            elseif (count($found_locales, 0) >= 1) {
+
+                // Check if any Locale containing '$locale' was found previously
+            } elseif (count($found_locales, 0) >= 1) {
                 $message = 'Locale "'.$locale.'" was not found! Falling back to similar locale "'.$found_locales[0].'"';
                 $locale = $found_locales[0];
-            }
-            else {
+            } else {
                 throw new NotFoundResourceException("Locale '".$locale."' was not found in available locales");
             }
         }
@@ -300,12 +335,16 @@ class Translator
     }
 
     /**
-     * @param $locale
-     * @param $group
-     * @return array|mixed
+     * Returns all translation in the in $locale from $group
+     *
+     * @param string $locale The locale of the translations to get
+     * @param string $group The group of the translations to get
+     *
+     * @return array|mixed Returns an array of all translation in the $locale from group $group
      */
-    public function getAllTranslations($locale, $group) {
-        if(!isset($this->aHandler[$locale])) {
+    public function getAllTranslations($locale, $group)
+    {
+        if (!isset($this->aHandler[$locale])) {
             $this->aHandler[$locale] = $this->createHandler($locale);
         }
 
