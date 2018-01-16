@@ -69,8 +69,8 @@ class CacheTranslationCommand extends Command
         // Check if the locale was given as a normal string
         if (!is_string($locale))
         {
-           $this->warn("Please specify only one locale");
-           return;
+            $this->warn("Please specify only one locale");
+            return;
         }
 
         //Set the Path where to cache translations to
@@ -136,11 +136,10 @@ class CacheTranslationCommand extends Command
         $trans_identifier =   new TranslationIdentifier();
 
         $trans_identifier = $trans_identifier->with('translations')->whereHas('translations', function ($item) use ($locale)
-            {
-                return $item->where('locale', $locale);
-            }
-            )
-            ->orWhereHas('translations', null, '<=', 0)
+        {
+            return $item->where('locale', $locale);
+        }
+        )->orWhereHas('translations', null, '<=', 0)
             ->get();
 
         return $trans_identifier;
