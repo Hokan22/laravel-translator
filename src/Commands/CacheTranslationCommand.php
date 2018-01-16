@@ -4,10 +4,10 @@
  * Artisan Command to cache Translations from the Database.
  *
  * @category ArtisanCommand
- * @link https://github.com/Hokan22/laravel-translator
  * @package Hokan22\LaravelTranslator\commands
  * @author Alexander Viertel <alexander@aviertel.de>
  * @license http://opensource.org/licenses/MIT MIT
+ * @link https://github.com/Hokan22/laravel-translator
  */
 namespace Hokan22\LaravelTranslator\Commands;
 
@@ -20,6 +20,11 @@ use Illuminate\Support\Facades\DB;
 /**
  * Class CacheTranslationCommand
  *
+ * @category ArtisanCommand
+ * @package Hokan22\LaravelTranslator\commands
+ * @author Alexander Viertel <alexander@aviertel.de>
+ * @license http://opensource.org/licenses/MIT MIT
+ * @link https://github.com/Hokan22/laravel-translator
  */
 class CacheTranslationCommand extends Command
 {
