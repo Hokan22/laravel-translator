@@ -1,11 +1,13 @@
 <?php
 
 /**
- * Middleware
+ * Model
  *
- * @package Hokan22\LaravelTranslator\Models
- *
- * @author Alexander Viertel <alexander@aviertel.de>
+ * @category Models
+ * @package  Hokan22\LaravelTranslator\Models
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
 namespace Hokan22\LaravelTranslator\Models;
 
@@ -43,6 +45,12 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Translations whereUserId($value)
  * @method static Builder|Translations whereHas($relation, \Closure $callback = null, $operator = '>=', $count = 1)
  * @method static Builder|Translations where($column, $operator = null, $value = null, $boolean = 'and')
+ *
+ * @category Models
+ * @package  Hokan22\LaravelTranslator\Models
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
 class Translations extends Model
 {

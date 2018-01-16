@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * PHP version 5.6
+ *
+ * Migration
+ *
+ * @category Migration
+ * @package  Hokan22\LaravelTranslator\migrations
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
+ */
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -7,12 +18,12 @@ use Illuminate\Database\Migrations\Migration;
 /**
  * Translator Migration
  *
- * @package Hokan22\LaravelTranslator\migrations
  *
  * @category Migration
- * @author Alexander Viertel <alexander@aviertel.de>
- * @license http://opensource.org/licenses/MIT MIT
- * @link https://github.com/Hokan22/laravel-translator
+ * @package  Hokan22\LaravelTranslator\migrations
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
 class CreateTranslatorTables extends Migration
 {

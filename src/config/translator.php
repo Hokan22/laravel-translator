@@ -1,14 +1,18 @@
 <?php
 
 /**
- * Translator Config File
+ * PHP version 5.6
  *
- * @author Alexander Viertel <alexander@aviertel.de>
+ * Config File for Translator.
+ *
+ * @category Config
+ * @package  Hokan22\LaravelTranslator\config
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
 
 return [
-    /** @todo Add Translation Groups to config File */
-
     /*
     |--------------------------------------------------------------------------
     | Default Locale

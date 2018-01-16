@@ -2,9 +2,11 @@
 /**
  * Routes
  *
- * @package Hokan22\LaravelTranslator\resources
- *
- * @author Alexander Viertel <alexander@aviertel.de>
+ * @category LaravelRoutes
+ * @package  Hokan22\LaravelTranslator\resources
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
 
 if (! Hokan22\LaravelTranslator\TranslatorFacade::getConfigValue('custom_routes'))

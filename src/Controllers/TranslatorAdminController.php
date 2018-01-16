@@ -1,11 +1,15 @@
 <?php
 
 /**
+ * PHP version 5.6
+ *
  * Laravel Controller for handling request to the translator admin interface
  *
- * @package Hokan22\LaravelTranslator\Controllers
- *
- * @author Alexander Viertel <alexander@aviertel.de>
+ * @category LaravelController
+ * @package  Hokan22\LaravelTranslator\Controllers
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
 namespace Hokan22\LaravelTranslator\Controllers;
 
@@ -20,12 +24,11 @@ use Illuminate\Support\Facades\Input;
 /**
  * Class TranslatorAdminController
  *
- * @package Hokan22\LaravelTranslator\Controllers
- *
  * @category LaravelController
- * @author Alexander Viertel <alexander@aviertel.de>
- * @license http://opensource.org/licenses/MIT MIT
- * @link https://github.com/Hokan22/laravel-translator
+ * @package  Hokan22\LaravelTranslator\Controllers
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
 class TranslatorAdminController extends Controller
 {

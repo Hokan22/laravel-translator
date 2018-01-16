@@ -13,11 +13,10 @@
  */
 namespace Hokan22\LaravelTranslator\Commands;
 
-use Hokan22\LaravelTranslator\Models\TranslationIdentifier;
-use Hokan22\LaravelTranslator\TranslatorFacade;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-
+use Hokan22\LaravelTranslator\TranslatorFacade;
+use Hokan22\LaravelTranslator\Models\TranslationIdentifier;
 
 /**
  * Class CacheTranslationCommand

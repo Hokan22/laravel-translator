@@ -1,11 +1,15 @@
 <?php
 
 /**
+ * PHP version 5.6
+ *
  * Translation handler for cached translations in JSON Format
  *
- * @package Hokan22\LaravelTranslator\Handler
- *
- * @author Alexander Viertel <alexander@aviertel.de>
+ * @category TranslatorHandler
+ * @package  Hokan22\LaravelTranslator\Handler
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
 namespace Hokan22\LaravelTranslator\Handler;
 
@@ -14,18 +18,17 @@ use Hokan22\LaravelTranslator\TranslatorFacade;
 /**
  * Class CacheJSONHandler
  *
- * @package Hokan22\LaravelTranslator\Handler
- *
  * @category TranslatorHandler
- * @author Alexander Viertel <alexander@aviertel.de>
- * @license http://opensource.org/licenses/MIT MIT
- * @link https://github.com/Hokan22/laravel-translator
+ * @package  Hokan22\LaravelTranslator\Handler
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
 class CacheJSONHandler implements HandlerInterface
 {
     /**
-     * @var string          $locale         The locale to translate to
-     * @var array|array[]   $translations   Array with the identifiers as keys and the Texts object as value
+     * @var string $locale The locale to translate to
+     * @var array|array[] $translations Array with the identifiers as keys and the Texts object as value
      */
     protected $locale, $translations;
 

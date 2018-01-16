@@ -1,11 +1,15 @@
 <?php
 
 /**
+ * PHP version 5.6
+ *
  * Middleware
  *
- * @package Hokan22\LaravelTranslator\Middleware
- *
- * @author Alexander Viertel <alexander@aviertel.de>
+ * @category TranslatorMiddleware
+ * @package  Hokan22\LaravelTranslator\Middleware
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
 namespace Hokan22\LaravelTranslator\Middleware;
 
@@ -17,17 +21,18 @@ use Illuminate\Support\Facades\Session;
 /**
  * Class LocaleHandler
  *
- * @package Hokan22\LaravelTranslator\Middleware
- *
  * @category TranslatorMiddleware
- * @author Alexander Viertel <alexander@aviertel.de>
- * @license http://opensource.org/licenses/MIT MIT
- * @link https://github.com/Hokan22/laravel-translator
+ * @package  Hokan22\LaravelTranslator\Middleware
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
 class TranslatorMiddleware
 {
     /**
      * Handle an incoming request.
+     *
+     * @todo Validate Browser locale string (https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4)
      *
      * @param Request $request
      * @param Closure $next
@@ -48,7 +53,6 @@ class TranslatorMiddleware
 
             app()->setLocale($locale);
         } else {
-            /** @todo Validate Browser locale string (https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4) */
             Session::put('locale', TranslatorFacade::getConfigValue('default_locale'));
             Session::save();
         }
