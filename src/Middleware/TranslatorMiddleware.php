@@ -30,14 +30,14 @@ use Illuminate\Support\Facades\Session;
 class TranslatorMiddleware
 {
     /**
-     * Handle an incoming request.
-     *
-     * @todo Validate Browser locale string (https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4)
+     * Handle an incoming request
      *
      * @param Request $request
      * @param Closure $next
      *
      * @return mixed
+     *
+     * @todo Validate Browser locale string (https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4)
      */
     public function handle(Request $request, Closure $next)
     {

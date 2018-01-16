@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * PHP version 5.6
+ *
  * Translator
  *
  * @category Translator

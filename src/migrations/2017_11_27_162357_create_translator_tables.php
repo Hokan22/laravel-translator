@@ -18,7 +18,6 @@ use Illuminate\Database\Migrations\Migration;
 /**
  * Translator Migration
  *
- *
  * @category Migration
  * @package  Hokan22\LaravelTranslator\migrations
  * @author   Alexander Viertel <alexander@aviertel.de>
