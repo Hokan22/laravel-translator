@@ -65,6 +65,13 @@ class CacheTranslationCommand extends Command
         // Get Parameters
         $locale = $this->argument('locale');
 
+        // Check if the locale was given as a normal string
+        if (!is_string($locale))
+        {
+           $this->warn("Please specify only one locale");
+           return;
+        }
+
         //Set the Path where to cache translations to
         $file_path = TranslatorFacade::getConfigValue('cache_path').$locale.'/';
 
