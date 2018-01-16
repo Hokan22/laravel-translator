@@ -58,6 +58,7 @@ class CacheTranslationCommand extends Command
      * Execute the command.
      *
      * @throws \Exception
+     *
      * @return void
      */
     public function handle()
@@ -126,6 +127,7 @@ class CacheTranslationCommand extends Command
      * Get all translation identifier with translation from the given locale
      *
      * @param string $locale The locale from which the translations to load
+     *
      * @return TranslationIdentifier|\Illuminate\Database\Eloquent\Collection|static[]
      */
     protected function loadFromDB($locale)
@@ -134,9 +136,10 @@ class CacheTranslationCommand extends Command
         $trans_identifier =   new TranslationIdentifier();
 
         $trans_identifier = $trans_identifier->with('translations')->whereHas('translations', function ($item) use ($locale)
-        {
-            return $item->where('locale', $locale);
-        })
+            {
+                return $item->where('locale', $locale);
+            }
+            )
             ->orWhereHas('translations', null, '<=', 0)
             ->get();
 
