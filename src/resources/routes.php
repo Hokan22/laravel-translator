@@ -15,7 +15,7 @@ if (! Hokan22\LaravelTranslator\TranslatorFacade::getConfigValue('custom_routes'
             Route::post('/{id}', 'Hokan22\LaravelTranslator\Controllers\TranslatorAdminController@postEdit')->where('id', '[0-9]+')->name('translator.admin.post.edit');
 
 
-            Route::get('/livemode/{state}', 'Hokan22\LaravelTranslator\Controllers\TranslatorAdminController@changeLiveMode')->where('stat', '[a-z]+')->name('translator.change.live_mode');
+            Route::get('/livemode/{state}', 'Hokan22\LaravelTranslator\Controllers\TranslatorAdminController@changeLiveMode')->where('state', '[a-z]+')->name('translator.change.live_mode');
 
         });
     });
