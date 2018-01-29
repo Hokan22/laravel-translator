@@ -106,7 +106,7 @@ class Translator
         } catch (NotFoundResourceException $exception) {
             // Thrown when the Identifier wasn't found
             // Log exception as error in Laravel log
-            Log::error($exception);
+            $this->log($exception, 'error');
 
             // Listener: When app is not in production and listening is enabled
             // add any missing translation identifier to the database
@@ -119,7 +119,7 @@ class Translator
         } catch (TranslationNotFoundException $exception) {
             // Thrown when no translation for the locale was found
             // Log exception as error in Laravel log
-            Log::error($exception);
+            $this->log($exception, 'error');
 
             return $this->returnMissingTranslation($identifier, $locale);
         }
@@ -156,8 +156,8 @@ class Translator
             }
         } catch (\Exception $exception) {
             // Log error and fallback procedure
-            Log::error($exception);
-            Log::warning('Falling back to DatabaseHandler');
+            $this->log($exception, 'error');
+            $this->log('Falling back to DatabaseHandler', 'warning');
 
             // Fallback to Database Handler
             $oHandler = new DatabaseHandler($locale);
@@ -215,9 +215,9 @@ class Translator
                 $this->aHandler[$this->locale]->refreshCache();
             }
             // Print notice about creation to laravel log
-            Log::notice('The translation string "'.$identifier.'" will be written to the Database');
+            $this->log('The translation string "'.$identifier.'" will be written to the Database', 'notice');
         } else {
-            Log::warning('The translation string "'.$identifier.'" is already in the Database!');
+            $this->log('The translation string "'.$identifier.'" is already in the Database!', 'warning');
         }
     }
 
@@ -335,7 +335,7 @@ class Translator
             }
         }
 
-        if ($message !== '') Log::warning($message);
+        if ($message !== '') $this->log($message, 'warning');
 
         return $locale;
     }
@@ -355,5 +355,34 @@ class Translator
         }
 
         return $this->aHandler[$locale]->getAllTranslations($group);
+    }
+
+    /**
+     * Log the given exception or string $exception as type $log_type when config log_level is set to debug
+     *
+     * @param \Exception|string $exception The Exception to log
+     * @param string $log_type The type of the log to write in the log file
+     *
+     */
+    protected function log($exception, $log_type = 'notice')
+    {
+        if ($this->config['log_level'] !== 'debug') {
+            return;
+        }
+
+        switch ($log_type) {
+            case 'error':
+                Log::error($exception);
+                break;
+
+            case 'warning':
+                Log::warning($exception);
+                break;
+
+            case 'notice':
+            default :
+                Log::notice($exception);
+                break;
+        }
     }
 }

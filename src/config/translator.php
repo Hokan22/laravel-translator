@@ -100,4 +100,17 @@ return [
     */
     'custom_routes' =>  false,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Log Level
+    |--------------------------------------------------------------------------
+    |
+    | Set the verbosity of the Translator.
+    | Available:
+    |       'debug': Log all cached exceptions
+    |       'quiet': Don't log cached exceptions
+    |
+    */
+    'log_level' =>  'debug',
+
 ];
