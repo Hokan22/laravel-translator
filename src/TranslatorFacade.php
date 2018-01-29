@@ -1,23 +1,22 @@
 <?php
-/*
- * File:     TranslatorFacade.php
- * Category: -
- * Author:   alexander
- * Created:  22.11.17 16:23
- * Updated:  -
+
+/**
+ * PHP version 5.6
  *
- * Description:
- *  -
+ * TranslatorFacade
+ *
+ * @category LaravelFacade
+ * @package  Hokan22\LaravelTranslator
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
-
-
 namespace Hokan22\LaravelTranslator;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
  * Class TranslatorFacade
- * @package Hokan22\LaravelTranslator
  *
  * @method static string    getConfigValue($key)
  * @method static string    translate($identifier , $parameters = null, $locale = '')
@@ -26,6 +25,12 @@ use Illuminate\Support\Facades\Facade;
  * @method static boolean   hasIdentifier($identifier)
  * @method static string    validateLocale($locale)
  * @method static string    getAllTranslations($locale, $group)
+ *
+ * @category LaravelFacade
+ * @package  Hokan22\LaravelTranslator
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
 class TranslatorFacade extends Facade
 {

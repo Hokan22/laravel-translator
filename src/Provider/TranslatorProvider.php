@@ -1,4 +1,16 @@
 <?php
+
+/**
+ * PHP version 5.6
+ *
+ * Provider
+ *
+ * @category Provider
+ * @package  Hokan22\LaravelTranslator\Provider
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
+ */
 namespace Hokan22\LaravelTranslator\Provider;
 
 use Hokan22\LaravelTranslator\Commands\SearchTranslationsCommand;
@@ -6,6 +18,15 @@ use Hokan22\LaravelTranslator\Commands\CacheTranslationCommand;
 use Hokan22\LaravelTranslator\Translator;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class TranslatorProvider
+ *
+ * @category Provider
+ * @package  Hokan22\LaravelTranslator\Provider
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
+ */
 class TranslatorProvider extends ServiceProvider
 {
     /**
@@ -17,9 +38,11 @@ class TranslatorProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/translator.php', 'translator');
 
-        $this->app->singleton('Translator', function () {
-            return new Translator();
-        });
+        $this->app->singleton('Translator', function ()
+            {
+                return new Translator();
+            }
+        );
     }
 
     /**
@@ -27,9 +50,11 @@ class TranslatorProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot() {
-        $this->publishes([
-            __DIR__ . '/../config/translator.php' => config_path('translator.php'),
+    public function boot()
+    {
+        $this->publishes(
+            [
+                __DIR__ . '/../config/translator.php' => config_path('translator.php'),
             ],
             'config'
         );
@@ -40,12 +65,14 @@ class TranslatorProvider extends ServiceProvider
 
         $this->loadRoutesFrom(__DIR__.'/../resources/routes.php');
 
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                CacheTranslationCommand::class,
-                SearchTranslationsCommand::class,
-            ]);
+        if ($this->app->runningInConsole())
+        {
+            $this->commands(
+                [
+                    CacheTranslationCommand::class,
+                    SearchTranslationsCommand::class,
+                ]
+            );
         }
     }
 }

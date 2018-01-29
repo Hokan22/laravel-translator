@@ -1,6 +1,16 @@
 <?php
 
-
+/**
+ * PHP version 5.6
+ *
+ * Laravel Controller for handling request to the translator admin interface
+ *
+ * @category LaravelController
+ * @package  Hokan22\LaravelTranslator\Controllers
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
+ */
 namespace Hokan22\LaravelTranslator\Controllers;
 
 use Illuminate\Routing\Controller;
@@ -13,24 +23,33 @@ use Illuminate\Support\Facades\Input;
 
 /**
  * Class TranslatorAdminController
- * @package app\Libraries\Translator\resources\views
+ *
+ * @category LaravelController
+ * @package  Hokan22\LaravelTranslator\Controllers
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
 class TranslatorAdminController extends Controller
 {
     /**
+     * Return an overview of translations
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index () {
-
+    public function index()
+    {
         $locale = Input::get('locale', '');
         $search = Input::get('search', '');
 
-        $query = TranslationIdentifier::with('translations')->orderBy('updated_at', 'DESC')->orderBy('id', 'DESC');
+        $query = TranslationIdentifier::with('translations');
 
         if ($locale != '') {
-            $query = TranslationIdentifier::wheredoesntHave('translations', function ($query) use ($locale) {
-                            $query->where('locale', 'like', $locale);
-                        });
+            $query = TranslationIdentifier::wheredoesntHave('translations', function ($query) use ($locale)
+                {
+                    $query->where('locale', 'like', $locale);
+                }
+            );
         }
 
         if ($search != '') {
@@ -41,40 +60,50 @@ class TranslatorAdminController extends Controller
                                             ->orWhere('description','LIKE', '%'.$search.'%');
         }
 
-        $trans_identifier = $query->orderBy('updated_at', 'DESC')->orderBy('id', 'DESC')->paginate(20)->appends(Input::except('page'));
+        $trans_identifier = $query->orderBy('id')->paginate(20)->appends(Input::except('page'));
 
         $available_locales = TranslatorFacade::getConfigValue('available_locales');
 
-        return view('translator::index',[
-            'identifier'         =>  $trans_identifier,
-            'available_locales'  =>  $available_locales,
-        ]);
+        return view('translator::index',
+            [
+                'identifier'         =>  $trans_identifier,
+                'available_locales'  =>  $available_locales,
+            ]
+        );
     }
 
     /**
-     * @param $id
+     * Return the edit view for a translation with $id
+     *
+     * @param integer $id ID of the translation Identifier to edit
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit ($id) {
-
+    public function edit($id)
+    {
         $identifier = TranslationIdentifier::findOrFail($id);
 
         $available_locales = TranslatorFacade::getConfigValue('available_locales');
 
-        return view('translator::edit',[
-            'identifier'         =>  $identifier,
-            'available_locales'  =>  $available_locales,
-        ]);
+        return view('translator::edit',
+            [
+                'identifier'         =>  $identifier,
+                'available_locales'  =>  $available_locales,
+            ]
+        );
 
     }
 
     /**
-     * @param $id
-     * @param Request $request
+     * Update
+     *
+     * @param integer $id ID of the identifier to edit
+     * @param Request $request Object with the values of the identifier
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function postEdit ($id, Request $request) {
-        
+    public function postEdit($id, Request $request)
+    {
         TranslationIdentifier::findOrFail($id);
 
         foreach ($request->all() as $key => $value) {
@@ -93,21 +122,23 @@ class TranslatorAdminController extends Controller
             DB::statement("INSERT INTO `translations` (`translation_identifier_id`, `locale`, `translation`, `updated_at`, `created_at`)
                             VALUES ($id, '$key', '$value', '$timestamp', '$timestamp') 
                             ON DUPLICATE KEY 
-                              UPDATE `translation` = '$value'");
+                            UPDATE `translation` = '$value'");
 
             DB::statement("UPDATE `translation_identifiers` SET `updated_at` = '$timestamp' WHERE `id` LIKE $id");
         }
 
         return $this->edit($id);
-
     }
 
     /**
-     * @param Request $request
+     * Post edit of multiple Identifiers from the index view
+     *
+     * @param Request $request Request with multiple values of identifiers to update
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function postIdentifier (Request $request) {
-
+    public function postIdentifier(Request $request)
+    {
         /** @var TranslationIdentifier $translation_identifiers */
         $translation_identifiers = TranslationIdentifier::all()->whereIn('id', array_keys($request->all()));
 
@@ -126,14 +157,16 @@ class TranslatorAdminController extends Controller
 
             $translation_identifier->save();
         }
-
         return $this->index();
     }
 
     /**
+     * Test view with some test translations
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function test () {
+    public function test()
+    {
         return view('translator::test');
     }
 }

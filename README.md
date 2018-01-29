@@ -65,9 +65,8 @@ After you registered the TranslatorBladeServiceProvider you can use the ```@t()`
 
 Parameters are simply surrounded by `{}` and their replacement provided as an array as the second parameter of the blade translate directive.
 
-You can even use `html` within the parameters.
 ```
-@t('Visit the site {link}.', ['link' => '<a href="example.com">here</a>'])
+@t('Visit the site {link}.', ['link' => '<a href="example.com">LaravelTranslator</a>'])
 ```
 
 ### Custom Translation Handler
@@ -77,17 +76,6 @@ Now just change the 'handler' config parameter in ``` config\translator.php ``` 
 ```
 'handler' =>  Hokan22\LaravelTranslator\Handler\DatabaseHandler::class,
 ```
-
-## Change log
-
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
-
-## TODO
-    
-- blade directive to change locale for more translations
-- way to provide group for translation
-- blade directive to change group for more locales
-- publish tests
 
 ## Security
 

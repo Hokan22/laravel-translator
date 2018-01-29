@@ -1,18 +1,18 @@
 <?php
-/*
- * File:     translator.php
- * Category: -
- * Author:   alexander
- * Created:  22.11.17 16:31
- * Updated:  -
+
+/**
+ * PHP version 5.6
  *
- * Description:
- *  -
+ * Config File for Translator.
+ *
+ * @category Config
+ * @package  Hokan22\LaravelTranslator\config
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
 
 return [
-    // TODO: Add Translation Groups to config File
-
     /*
     |--------------------------------------------------------------------------
     | Default Locale
@@ -99,5 +99,18 @@ return [
     |
     */
     'custom_routes' =>  false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Log Level
+    |--------------------------------------------------------------------------
+    |
+    | Set the verbosity of the Translator.
+    | Available:
+    |       'debug': Log all cached exceptions
+    |       'quiet': Don't log cached exceptions
+    |
+    */
+    'log_level' =>  'debug',
 
 ];

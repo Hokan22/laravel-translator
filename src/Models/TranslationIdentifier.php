@@ -1,15 +1,16 @@
 <?php
-/*
- * File:     TranslationIdentifier.php
- * Category: Model
- * Author:   alexander
- * Created:  13.11.2017 12:20
- * Updated:  -
- *
- * Description:
- *  -
- */
 
+/**
+ * PHP version 5.6
+ *
+ * Models
+ *
+ * @category Models
+ * @package  Hokan22\LaravelTranslator\Models
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
+ */
 namespace Hokan22\LaravelTranslator\Models;
 
 use Carbon\Carbon;
@@ -19,7 +20,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class TranslationIdentifier
- * @package App\Models
  *
  * @property int        $id
  * @property string     $identifier
@@ -42,13 +42,18 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|TranslationIdentifier whereUserId($value)
  * @method static Builder|TranslationIdentifier whereHas($relation, \Closure $callback = null, $operator = '>=', $count = 1)
  * @method static Builder|TranslationIdentifier where($column, $operator = null, $value = null, $boolean = 'and')
+ *
+ * @category Models
+ * @package  Hokan22\LaravelTranslator\Models
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
-class TranslationIdentifier extends Model {
-
+class TranslationIdentifier extends Model
+{
     /**
-     * @var array
+     * @var array $fillable Database fields fillable by eloquent
      */
-    // TODO: Translation Group (JS, Server)
     protected $fillable = [
         'identifier',
         'parameters',
@@ -62,9 +67,12 @@ class TranslationIdentifier extends Model {
     ];
 
     /**
+     * Returns the relation to the Translations
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function translations(){
+    public function translations()
+    {
         return $this->hasMany(Translations::class);
     }
 

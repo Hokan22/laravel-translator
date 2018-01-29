@@ -1,18 +1,34 @@
 <?php
 
+/**
+ * PHP version 5.6
+ *
+ * Artisan Command to cache Translations from the Database.
+ *
+ * @category ArtisanCommand
+ * @package  Hokan22\LaravelTranslator\commands
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
+ */
 namespace Hokan22\LaravelTranslator\Commands;
 
-use Hokan22\LaravelTranslator\Models\TranslationIdentifier;
-use Hokan22\LaravelTranslator\TranslatorFacade;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-
+use Hokan22\LaravelTranslator\TranslatorFacade;
+use Hokan22\LaravelTranslator\Models\TranslationIdentifier;
 
 /**
  * Class CacheTranslationCommand
- * @package Hokan22\LaravelTranslator\commands
+ *
+ * @category ArtisanCommand
+ * @package  Hokan22\LaravelTranslator\commands
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
-class CacheTranslationCommand extends Command {
+class CacheTranslationCommand extends Command
+{
 
     /**
      * The name and signature of the console command.
@@ -33,7 +49,8 @@ class CacheTranslationCommand extends Command {
     /**
      * Create a new command instance.
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
@@ -41,11 +58,20 @@ class CacheTranslationCommand extends Command {
      * Execute the command.
      *
      * @throws \Exception
+     *
+     * @return void
      */
-    public function handle() {
+    public function handle()
+    {
         // Get Parameters
-        /** @var string $locale */
         $locale = $this->argument('locale');
+
+        // Check if the locale was given as a normal string
+        if (!is_string($locale))
+        {
+            $this->warn("Please specify only one locale");
+            return;
+        }
 
         //Set the Path where to cache translations to
         $file_path = TranslatorFacade::getConfigValue('cache_path').$locale.'/';
@@ -92,23 +118,28 @@ class CacheTranslationCommand extends Command {
      *
      * @return array
      */
-    private function getGroups () {
+    protected function getGroups()
+    {
         return DB::table('translation_identifiers')->select('group')->groupBy(['group'])->get()->pluck('group');
     }
 
     /**
      * Get all translation identifier with translation from the given locale
      *
-     * @param $locale
+     * @param string $locale The locale from which the translations to load
+     *
      * @return TranslationIdentifier|\Illuminate\Database\Eloquent\Collection|static[]
      */
-    private function loadFromDB ($locale) {
+    protected function loadFromDB($locale)
+    {
         // Get all Texts with translations for the given locale
         $trans_identifier =   new TranslationIdentifier();
 
-        $trans_identifier = $trans_identifier->with('translations')->whereHas('translations', function ($item) use ($locale) {
+        $trans_identifier = $trans_identifier->with('translations')->whereHas('translations', function ($item) use ($locale)
+        {
             return $item->where('locale', $locale);
-        })->orWhereHas('translations', null, '<=', 0)
+        }
+        )->orWhereHas('translations', null, '<=', 0)
             ->get();
 
         return $trans_identifier;

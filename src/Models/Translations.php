@@ -1,15 +1,16 @@
 <?php
-/*
- * File:     Translations.php
- * Category: Model
- * Author:   alexander
- * Created:  13.11.2017 12:20
- * Updated:  -
- *
- * Description:
- *  -
- */
 
+/**
+ * PHP version 5.6
+ *
+ * Model
+ *
+ * @category Models
+ * @package  Hokan22\LaravelTranslator\Models
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
+ */
 namespace Hokan22\LaravelTranslator\Models;
 
 use Carbon\Carbon;
@@ -19,7 +20,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class Translations
- * @package App\Models
  *
  * @property int        $id
  * @property string     $locale
@@ -39,29 +39,38 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Translations whereUserId($value)
  * @method static Builder|Translations whereHas($relation, \Closure $callback = null, $operator = '>=', $count = 1)
  * @method static Builder|Translations where($column, $operator = null, $value = null, $boolean = 'and')
+ *
+ * @category Models
+ * @package  Hokan22\LaravelTranslator\Models
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
-class Translations extends Model {
-
-
+class Translations extends Model
+{
+    /** @var string This is set to get more information when eloquent fails to access the model with a composite key */
     protected $primaryKey = 'this_model_uses_composite_keys';
 
     public $incrementing = false;
 
     /**
-     * @var array
+     * @var array $fillable Database fields fillable by eloquent
      */
     protected $fillable = [
         'locale',
         'translation',
     ];
 
+    /** @var array $touches Set to automatically update the timestamp from the according identifier */
     protected $touches = ['translationIdentifier'];
 
     /**
+     * Return the relation to the TranslationIdentifier
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function translationIdentifier(){
+    public function translationIdentifier()
+    {
         return $this->belongsTo(TranslationIdentifier::class);
     }
-
 }

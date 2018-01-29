@@ -1,4 +1,5 @@
 <?php
+    /** @var array $columns Columns to display in the overview table */
     $columns = [
         'ID',
         'Identifier',

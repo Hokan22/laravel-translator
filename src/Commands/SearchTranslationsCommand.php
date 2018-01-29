@@ -1,27 +1,34 @@
 <?php
-/*
- * File:     LanguageCommand.php
- * Category: -
- * Author:   MSG
- * Created:  02.08.17 12:08
- * Updated:  -
+
+/**
+ * PHP version 5.6
  *
- * Description:
- *  -
+ * Artisan Command to cache Translations from the Database.
+ *
+ * @category ArtisanCommand
+ * @package  Hokan22\LaravelTranslator\commands
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
-
-
 namespace Hokan22\LaravelTranslator\commands;
 
-use Illuminate\Support\Facades\File;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Hokan22\LaravelTranslator\TranslatorFacade;
 
 /**
  * Class SearchTranslationsCommand
- * @package App\Console\Commands
+ *
+ * @category ArtisanCommand
+ * @package  Hokan22\LaravelTranslator\commands
+ * @author   Alexander Viertel <alexander@aviertel.de>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/Hokan22/laravel-translator
  */
-class SearchTranslationsCommand extends Command{
+class SearchTranslationsCommand extends Command
+{
     /**
      * The name and signature of the console command.
      *
@@ -36,18 +43,22 @@ class SearchTranslationsCommand extends Command{
      */
     protected $description = "Searches through all used translations in PHP files. After gathering Strings to translate, they will be inserted into the Database for further treatment.";
 
-    private $found_identifier = 0;
-    private $found_parameters = 0;
-    private $found_invalid = 0;
-    private $new_identifier = 0;
-    private $dupl_identifier = 0;
+    protected $found_identifier = 0;
+    protected $found_parameters = 0;
+    protected $found_invalid = 0;
+    protected $new_identifier = 0;
+    protected $dupl_identifier = 0;
 
-    private $bar;
+    /**
+     * @var ProgressBar $bar Progressbar for progress of iterating through files
+     */
+    protected $bar;
 
     /**
      * Create a new command instance.
      */
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
     }
 
@@ -57,11 +68,10 @@ class SearchTranslationsCommand extends Command{
      * @return mixed
      * @throws \Exception
      */
-    public function handle(){
-
+    public function handle()
+    {
         // Get start time
         $start = microtime(true);
-
 
         $this->line('');
 
@@ -79,7 +89,7 @@ class SearchTranslationsCommand extends Command{
             'js'        => '/\$filter\(\'translate\'\)\(\'(?\'identifier\'.*?)\'\)/'
         ];
 
-        foreach($folders as $folder){
+        foreach($folders as $folder) {
             $aFiles = array_merge($aFiles, File::allFiles(base_path().'/'.$folder));
         }
 
@@ -95,13 +105,13 @@ class SearchTranslationsCommand extends Command{
 
             $extension = $file->getExtension();
 
-            if(in_array($extension, $valid_extensions)){
+            if(in_array($extension, $valid_extensions)) {
                 $content = file_get_contents($file);
 
                 foreach ($regexes as $key => $regex) {
                     preg_match_all($regex, $content, $result, PREG_SET_ORDER);
 
-                    if(!empty($result[0])){
+                    if(!empty($result[0])) {
                         $this->addMissing($result, $key);
                     }
                 }
@@ -113,42 +123,49 @@ class SearchTranslationsCommand extends Command{
         $this->line('');
         $this->line('');
 
-        $this->table(['Num', 'Translations...'],[
-            [$this->found_identifier, "Found"],
-            [$this->new_identifier,   "New"],
-            [$this->dupl_identifier,  "Duplicates"],
-            [$this->found_parameters, "With Parameters"],
-            [$this->found_invalid,    "Invalid"],
-        ]);
+        $this->table(
+            ['Num', 'Translations...'],
+            [
+                [$this->found_identifier, "Found"],
+                [$this->new_identifier,   "New"],
+                [$this->dupl_identifier,  "Duplicates"],
+                [$this->found_parameters, "With Parameters"],
+                [$this->found_invalid,    "Invalid"],
+            ]
+        );
 
         $this->line('');
 
         $this->info('Finished in: ' . number_format(microtime(true) - $start, 2) . 'sec');
     }
 
-    private function addMissing($result, $group) {
-
+    /**
+     * Add missing Identifiers to the Database
+     *
+     * @param array $result Array with
+     * @param string $group
+     * @return void
+     */
+    protected function addMissing($result, $group)
+    {
         foreach ($result as $item) {
-            try{
-
+            try {
                 $identifier = trim($item['identifier']);
                 $this->found_identifier++;
 
                 $parameters = null;
 
                 if (isset($item['parameters'])) {
-
                     $parameter_string = $item['parameters'];
 
-                    if (substr($parameter_string, 0, 1 ) === '[') {
+                    if (substr($parameter_string, 0, 1) === '[') {
                         $parameter_string = substr($parameter_string, 1, -1);
                     }
 
                     $parameter_array = explode(",",$parameter_string);
-
                     $parameters = array();
-                    foreach($parameter_array as $parameter )
-                    {
+
+                    foreach($parameter_array as $parameter) {
                         $parameter = explode("=>",$parameter);
 
                         $key = str_replace([" ", "'"],"", $parameter[0]);
@@ -160,22 +177,21 @@ class SearchTranslationsCommand extends Command{
                     $this->found_parameters++;
                 }
 
-                if(!isset($aTranslations[$identifier])){
+                if(!isset($aTranslations[$identifier])) {
                     $aTranslations[$identifier] = TranslatorFacade::hasIdentifier($identifier);
 
-                    if (! $aTranslations[$identifier]) {
+                    if (!$aTranslations[$identifier]) {
                         TranslatorFacade::addMissingIdentifier($identifier, $parameters, $group);
                         $this->bar->clear();
                         $this->info('Adding: "'.$identifier.'" to database');
                         $this->bar->display();
                         $this->new_identifier++;
                     }
-                }
-                else {
+                } else {
                     $this->dupl_identifier++;
                 }
 
-            }catch(\Exception $e){
+            } catch(\Exception $e){
                 $this->bar->clear();
                 $this->info($identifier.' '.strlen($identifier));
                 $this->info($e->getMessage());

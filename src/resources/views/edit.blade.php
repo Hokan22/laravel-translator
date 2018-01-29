@@ -1,4 +1,5 @@
 <?php
+    /** @var array $columns Columns to display in the edit table */
     $columns = [
         'ID',
         'Identifier',
