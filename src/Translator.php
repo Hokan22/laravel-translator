@@ -285,7 +285,7 @@ class Translator
      *
      * @return string Returns the validated Locale
      */
-    protected function validateLocale($locale)
+    public function validateLocale($locale)
     {
         // Set message for later log warning
         $message = '';
