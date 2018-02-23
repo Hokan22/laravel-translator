@@ -101,7 +101,8 @@ class Translator
         }
 
         if (session('translation_live_mode')) {
-            $translation = $this->addLiveModeLink($translation);
+            $id = $this->aHandler[$locale]->getDatabaseID($identifier);
+            $translation = $this->addLiveModeLink($translation, $id);
         }
 
         // Return the translation
@@ -110,12 +111,12 @@ class Translator
 
     /**
      * @param $translation
+     * @param $id
      * @return string
      */
-    public function addLiveModeLink($translation) {
+    public function addLiveModeLink($translation, $id) {
 
-        // TODO: Get ID From Translation
-        $route = route('translator.admin.edit', ['id' => 12]);
+        $route = route('translator.admin.edit', ['id' => $id]);
 
         $inject = "<translation-anchor onclick='window.open(\"$route\", \"_blank\")' style='position: absolute; z-index: 999; cursor: pointer;'>&#9875;</translation-anchor>";
 
@@ -132,7 +133,12 @@ class Translator
     private function createHandler($locale) {
         // Get the Handler class from config file
         $handler_class = $this->config['handler'];
-        // Define message as empty for later check
+
+        // Override Handler Class with Database Handler when in live mode
+        if (session('translation_live_mode')) {
+            $handler_class = DatabaseHandler::class;
+        }
+
         $oHandler = null;
 
         // Try to create new Instance of Handler and return it
