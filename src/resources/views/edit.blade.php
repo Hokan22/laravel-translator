@@ -48,7 +48,7 @@
         <br/>
         <br/>
     @endforeach
-    <input type="submit" value="@t('Save Changes')" />
+    <input type="submit" value="Save Changes" />
     @isset($saved)
         <div style="display: inline;background-color: green;">
             @t('Saved Successfully')

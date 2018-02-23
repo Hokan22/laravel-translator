@@ -17,8 +17,9 @@
     }
 </style>
 
-<form action="{{route('translator.admin')}}" method="get">
-    <input type="search" name="search" placeholder="@t('search')" /><span style="font-size: x-large"> &#x1F50E;</span>
+
+<form action="{{route('translator.admin')}}" method="get" style="display: inline">
+    <input type="search" name="search" placeholder="search" /><span style="font-size: x-large"> &#x1F50E;</span>
 </form>
 
 @if(session('translation_live_mode'))
@@ -78,7 +79,7 @@
                 {{$identifier->links()}}
             </td>
             <td >
-                <input type="submit" value="@t('Save Changes')" />
+                <input type="submit" value="Save Changes" />
             </td>
         </tr>
     </form>
