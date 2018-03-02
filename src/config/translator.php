@@ -22,7 +22,6 @@ return [
     | the defined locale is not within available_locales or
     | no translation for the given string and locale was found
     */
-
     'default_locale' => 'de_DE',
 
     /*
@@ -36,7 +35,6 @@ return [
     | is valid, by comparing them with the locales below.
     |
     */
-
     'available_locales' => [
         'de_DE',
         'en_US',
@@ -51,7 +49,6 @@ return [
     | missing translation will be added to the Database
     |
     */
-
     'listening_enabled' => false,
 
 
@@ -96,6 +93,9 @@ return [
     |
     | If set to false the Translator Routes for Admin Interface and Test View,
     | defined in the Translators route.php will be used
+    |
+    | NOTE: When using the Live Translation mode make sure the admin route is
+    | named 'translator.admin.edit'!
     |
     */
     'custom_routes' =>  false,

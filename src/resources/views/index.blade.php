@@ -18,9 +18,16 @@
     }
 </style>
 
-<form action="{{route('translator.admin')}}" method="get">
-    <input type="search" name="search" placeholder="@t('search')" /><span style="font-size: x-large"> &#x1F50E;</span>
+
+<form action="{{route('translator.admin')}}" method="get" style="display: inline">
+    <input type="search" name="search" placeholder="search" /><span style="font-size: x-large"> &#x1F50E;</span>
 </form>
+
+@if(session('translation_live_mode'))
+    <a href="{{route('translator.change.live_mode', ['state' => 'disable'])}}">Disable Live Mode</a>
+@else
+    <a href="{{route('translator.change.live_mode', ['state' => 'enable'])}}">Enable Live Mode</a>
+@endif
 
 <table border="1px" cellpadding="4" cellspacing="0" width="100%">
     <tr>
@@ -73,7 +80,7 @@
                 {{$identifier->links()}}
             </td>
             <td >
-                <input type="submit" value="@t('Save Changes')" />
+                <input type="submit" value="Save Changes" />
             </td>
         </tr>
     </form>

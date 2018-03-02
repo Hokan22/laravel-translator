@@ -120,4 +120,18 @@ class DatabaseHandler implements HandlerInterface
         }
         return $return;
     }
+
+    /**
+     * @param $identifier
+     * @return integer
+     * @throws NotFoundResourceException
+     */
+    function getDatabaseID($identifier)
+    {
+        if(isset($this->translations[$identifier])) {
+            return $this->translations[$identifier]->id;
+        } else {
+            throw new NotFoundResourceException("The translation identifier '".$identifier."' could not be found");
+        }
+    }
 }

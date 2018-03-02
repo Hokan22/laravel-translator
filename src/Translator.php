@@ -129,22 +129,46 @@ class Translator
             $translation = $this->replaceParameter($translation, $parameters);
         }
 
+        if (session('translation_live_mode')) {
+            $id = $this->aHandler[$locale]->getDatabaseID($identifier);
+            $translation = $this->addLiveModeLink($translation, $id);
+        }
+
         // Return the translation
         return $translation;
     }
 
     /**
-     * Creates the Handler for the given locale
-     *
-     * @param string $locale The locale for which to create a handler
-     *
+     * @param $translation
+     * @param $id
+     * @return string
+     */
+    public function addLiveModeLink($translation, $id) {
+
+        $route = route('translator.admin.edit', ['id' => $id]);
+
+        $inject = "<translation-anchor onclick='window.open(\"$route\", \"_blank\")' style='position: absolute; z-index: 999; cursor: pointer;'>&#9875;</translation-anchor>";
+
+        $translation = "$translation $inject";
+
+        return $translation;
+    }
+
+     /**
+     * Sets the Handler
+     * @param $locale
      * @return HandlerInterface
      */
     protected function createHandler($locale)
     {
         // Get the Handler class from config file
         $handler_class = $this->config['handler'];
-        // Define message as empty for later check
+
+        // Override Handler Class with Database Handler when in live mode
+        if (session('translation_live_mode')) {
+            $handler_class = DatabaseHandler::class;
+        }
+
         $oHandler = null;
 
         // Try to create new Instance of Handler and return it

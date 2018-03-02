@@ -20,6 +20,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
 
 /**
  * Class TranslatorAdminController
@@ -168,5 +169,20 @@ class TranslatorAdminController extends Controller
     public function test()
     {
         return view('translator::test');
+    }
+
+    /**
+     * @param $state string 'enabled|disabled'
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function changeLiveMode ($state) {
+
+        if ($state == 'enable') {
+            session(['translation_live_mode' => true]);
+        } else {
+            session(['translation_live_mode' => false]);
+        }
+
+        return redirect()->back();
     }
 }
