@@ -10,7 +10,7 @@
         'LastChanged'
     ]
 ?>
-<a href="{{route('translator.admin')}}">@t('Admin')</a>
+<a href="{{route('translator.admin', ['page' =>  $page, 'locale' => $locale, 'search' => $search])}}">@t('Admin')</a>
 
 <br/>
 <br/>

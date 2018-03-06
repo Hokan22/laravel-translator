@@ -20,7 +20,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Session;
 
 /**
  * Class TranslatorAdminController
@@ -67,8 +66,11 @@ class TranslatorAdminController extends Controller
 
         return view('translator::index',
             [
-                'identifier'         =>  $trans_identifier,
-                'available_locales'  =>  $available_locales,
+                'identifier'        =>  $trans_identifier,
+                'available_locales' =>  $available_locales,
+                'page'              =>  Input::get('page'),
+                'locale'            =>  Input::get('locale'),
+                'search'            =>  Input::get('search'),
             ]
         );
     }
@@ -85,11 +87,14 @@ class TranslatorAdminController extends Controller
         $identifier = TranslationIdentifier::findOrFail($id);
 
         $available_locales = TranslatorFacade::getConfigValue('available_locales');
-
+        
         return view('translator::edit',
             [
-                'identifier'         =>  $identifier,
-                'available_locales'  =>  $available_locales,
+                'identifier'        =>  $identifier,
+                'available_locales' =>  $available_locales,
+                'page'              =>  Input::get('page'),
+                'locale'            =>  Input::get('locale'),
+                'search'            =>  Input::get('search'),
             ]
         );
 
@@ -109,7 +114,7 @@ class TranslatorAdminController extends Controller
 
         foreach ($request->all() as $key => $value) {
 
-            if ($value === null || $key == '_token') {
+            if ($value === null || in_array($key, ['_token', 'page', 'locale', 'search'])) {
                 continue;
             }
 
