@@ -1,15 +1,7 @@
 <?php
 
 /**
- * PHP version 5.6
- *
  * Artisan Command to cache Translations from the Database.
- *
- * @category ArtisanCommand
- * @package  Hokan22\LaravelTranslator\commands
- * @author   Alexander Viertel <alexander@aviertel.de>
- * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 namespace Hokan22\LaravelTranslator\commands;
 
@@ -49,9 +41,7 @@ class SearchTranslationsCommand extends Command
     protected $new_identifier = 0;
     protected $dupl_identifier = 0;
 
-    /**
-     * @var ProgressBar $bar Progressbar for progress of iterating through files
-     */
+    /**@var ProgressBar $bar Progressbar for progress of iterating through files */
     protected $bar;
 
     /**
@@ -144,7 +134,6 @@ class SearchTranslationsCommand extends Command
      *
      * @param array $result Array with
      * @param string $group
-     * @return void
      */
     protected function addMissing($result, $group)
     {

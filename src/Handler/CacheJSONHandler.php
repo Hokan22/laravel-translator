@@ -1,15 +1,7 @@
 <?php
 
 /**
- * PHP version 5.6
- *
  * Translation handler for cached translations in JSON Format
- *
- * @category TranslatorHandler
- * @package  Hokan22\LaravelTranslator\Handler
- * @author   Alexander Viertel <alexander@aviertel.de>
- * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 namespace Hokan22\LaravelTranslator\Handler;
 
@@ -36,7 +28,6 @@ class CacheJSONHandler implements HandlerInterface
      * DatabaseHandler constructor.
      *
      * @param string $locale The locale of the translations
-     *
      * @throws TranslationCacheNotFound
      */
     public function __construct($locale)
@@ -61,9 +52,7 @@ class CacheJSONHandler implements HandlerInterface
      *
      * @param string $identifier Identifier for the database query
      * @param string $group
-     *
      * @throws TranslationNotInCacheException
-     *
      * @return string returns the found translation for locale and identifier
      */
     public function getTranslation($identifier, $group = 'default')
@@ -84,7 +73,6 @@ class CacheJSONHandler implements HandlerInterface
      * Refresh the internal Cache
      *
      * @param string $group
-     *
      * @throws TranslationCacheNotFound
      */
     public function refreshCache($group = 'default')
@@ -107,9 +95,7 @@ class CacheJSONHandler implements HandlerInterface
      * Get all translation of $group
      *
      * @param string $group Group of the translations to return
-     *
      * @throws TranslationCacheNotFound
-     *
      * @return array|mixed Translations of the given group
      */
     public function getAllTranslations($group)

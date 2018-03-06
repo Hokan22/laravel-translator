@@ -3,7 +3,7 @@
 /**
  * PHP version 5.6
  *
- * Config File for Translator.
+ * Translator Config File.
  *
  * @category Config
  * @package  Hokan22\LaravelTranslator\config

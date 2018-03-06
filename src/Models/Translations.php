@@ -1,15 +1,7 @@
 <?php
 
 /**
- * PHP version 5.6
- *
  * Model
- *
- * @category Models
- * @package  Hokan22\LaravelTranslator\Models
- * @author   Alexander Viertel <alexander@aviertel.de>
- * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 namespace Hokan22\LaravelTranslator\Models;
 

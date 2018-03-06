@@ -1,15 +1,7 @@
 <?php
 
 /**
- * PHP version 5.6
- *
  * Laravel Controller for handling request to the translator admin interface
- *
- * @category LaravelController
- * @package  Hokan22\LaravelTranslator\Controllers
- * @author   Alexander Viertel <alexander@aviertel.de>
- * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 namespace Hokan22\LaravelTranslator\Controllers;
 
@@ -81,7 +73,6 @@ class TranslatorAdminController extends Controller
      * Return the edit view for a translation with $id
      *
      * @param integer $id ID of the translation Identifier to edit
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
@@ -107,7 +98,6 @@ class TranslatorAdminController extends Controller
      *
      * @param integer $id ID of the identifier to edit
      * @param Request $request Object with the values of the identifier
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function postEdit($id, Request $request)
@@ -142,7 +132,6 @@ class TranslatorAdminController extends Controller
      * Post edit of multiple Identifiers from the index view
      *
      * @param Request $request Request with multiple values of identifiers to update
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function postIdentifier(Request $request)

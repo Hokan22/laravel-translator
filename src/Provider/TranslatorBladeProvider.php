@@ -1,15 +1,7 @@
 <?php
 
 /**
- * PHP version 5.6
- *
  * Provider
- *
- * @category Provider
- * @package  Hokan22\LaravelTranslator\Provider
- * @author   Alexander Viertel <alexander@aviertel.de>
- * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 namespace Hokan22\LaravelTranslator\Provider;
 
@@ -31,8 +23,6 @@ class TranslatorBladeProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -68,14 +58,5 @@ class TranslatorBladeProvider extends ServiceProvider
         }
 
         return $expression;
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
     }
 }

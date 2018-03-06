@@ -1,7 +1,5 @@
 <?php
 /**
- * PHP version 5.6
- *
  * Routes
  *
  * @category LaravelRoutes

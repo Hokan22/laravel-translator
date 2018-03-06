@@ -1,15 +1,7 @@
 <?php
 
 /**
- * PHP version 5.6
- *
- * Middleware
- *
- * @category TranslatorMiddleware
- * @package  Hokan22\LaravelTranslator\Middleware
- * @author   Alexander Viertel <alexander@aviertel.de>
- * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
+ * Translator Middleware
  */
 namespace Hokan22\LaravelTranslator\Middleware;
 
@@ -34,7 +26,6 @@ class TranslatorMiddleware
      *
      * @param Request $request
      * @param Closure $next
-     *
      * @return mixed
      *
      * @todo Validate Browser locale string (https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4)

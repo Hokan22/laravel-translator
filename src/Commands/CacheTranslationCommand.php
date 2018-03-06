@@ -1,15 +1,7 @@
 <?php
 
 /**
- * PHP version 5.6
- *
  * Artisan Command to cache Translations from the Database.
- *
- * @category ArtisanCommand
- * @package  Hokan22\LaravelTranslator\commands
- * @author   Alexander Viertel <alexander@aviertel.de>
- * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 namespace Hokan22\LaravelTranslator\Commands;
 
@@ -58,8 +50,6 @@ class CacheTranslationCommand extends Command
      * Execute the command.
      *
      * @throws \Exception
-     *
-     * @return void
      */
     public function handle()
     {
@@ -127,7 +117,6 @@ class CacheTranslationCommand extends Command
      * Get all translation identifier with translation from the given locale
      *
      * @param string $locale The locale from which the translations to load
-     *
      * @return TranslationIdentifier|\Illuminate\Database\Eloquent\Collection|static[]
      */
     protected function loadFromDB($locale)
