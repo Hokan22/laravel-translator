@@ -39,25 +39,27 @@ class TranslatorAdminController extends Controller
      */
     public function index()
     {
-        $locale = Input::get('locale', '');
         $search = Input::get('search', '');
+        $locale = Input::get('locale', '');
 
         $query = TranslationIdentifier::with('translations');
 
         if ($locale != '') {
-            $query = TranslationIdentifier::wheredoesntHave('translations', function ($query) use ($locale)
+            $query = $query->whereDoesntHave('translations', function ($query) use ($locale)
                 {
-                    $query->where('locale', 'like', $locale);
+                    $query->where('translations.locale', 'like', $locale);
                 }
             );
         }
 
         if ($search != '') {
-            $query = TranslationIdentifier::where('identifier',     'LIKE', '%'.$search.'%')
-                                            ->orWhere('parameters', 'LIKE', '%'.$search.'%')
-                                            ->orWhere('group',      'LIKE', '%'.$search.'%')
-                                            ->orWhere('page_name',  'LIKE', '%'.$search.'%')
-                                            ->orWhere('description','LIKE', '%'.$search.'%');
+            $query = $query->where(function ($query) use ($search) {
+                $query ->where('identifier',     'LIKE', '%'.$search.'%')
+                    ->orWhere('parameters', 'LIKE', '%'.$search.'%')
+                    ->orWhere('group',      'LIKE', '%'.$search.'%')
+                    ->orWhere('page_name',  'LIKE', '%'.$search.'%')
+                    ->orWhere('description','LIKE', '%'.$search.'%');
+            });
         }
 
         $trans_identifier = $query->orderBy('id')->paginate(20)->appends(Input::except('page'));
