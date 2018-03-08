@@ -20,7 +20,7 @@
 
 
 <form action="{{route('translator.admin')}}" method="get" style="display: inline">
-    <input type="hidden" name="locale" value="{{$locale}}">
+    <input type="hidden" name="locale" value="{{$query_locale}}">
     <input type="search" name="search" placeholder="search" value="{{$search}}"/><span style="font-size: x-large"> &#x1F50E;</span>
 </form>
 
@@ -59,12 +59,12 @@
             @endif
         @endforeach
     </tr>
-
-    <form action="{{ route('translator.admin', ['search' => app('request')->input('search')]) }}" method="post">
+    <form action="{{ route('translator.admin', ['search' => $search]) }}" method="post">
         {{ csrf_field() }}
         @foreach($identifier as $ident)
             <tr>
-                <td><a href="{{route('translator.admin.edit', ['id' => $ident->id, 'page' => $identifier->currentPage(), 'locale' => $locale, 'search' => $search])}}">{{$ident->id}}</a></td>
+
+                <td><a href="{{route('translator.admin.edit', ['id' => $ident->id, 'page' => $identifier->currentPage(), 'locale' => $query_locale, 'search' => $search])}}">{{$ident->id}}</a></td>
                 <td>{{ $ident->identifier }}<input type="hidden" name="{{$ident->id}}[identifier]" value="{{$ident->identifier}}" /></td>
                 <td><input name="{{$ident->id}}[parameters]" value="{{implode(',', $ident->parameters)}}" /></td>
                 <td><input name="{{$ident->id}}[group]" value="{{$ident->group}}"/></td>

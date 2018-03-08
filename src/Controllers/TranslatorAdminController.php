@@ -63,7 +63,7 @@ class TranslatorAdminController extends Controller
                 'identifier'        =>  $trans_identifier,
                 'available_locales' =>  $available_locales,
                 'page'              =>  Input::get('page'),
-                'locale'            =>  Input::get('locale'),
+                'query_locale'      =>  Input::get('locale'),
                 'search'            =>  Input::get('search'),
             ]
         );
