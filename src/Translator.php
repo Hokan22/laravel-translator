@@ -1,15 +1,7 @@
 <?php
 
 /**
- * PHP version 5.6
- *
  * Translator
- *
- * @category Translator
- * @package  Hokan22\LaravelTranslator
- * @author   Alexander Viertel <alexander@aviertel.de>
- * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 namespace Hokan22\LaravelTranslator;
 
@@ -48,7 +40,6 @@ class Translator
      * Translator constructor.
      *
      * @param string $locale The locale to translate to
-     *
      * @throws \Exception
      */
     public function __construct($locale = '')
@@ -62,7 +53,6 @@ class Translator
      * Return the config value for given key
      *
      * @param string $key Key for the config value to get
-     *
      * @return string|array Config value for $key
      */
     public function getConfigValue($key)
@@ -77,9 +67,7 @@ class Translator
      * @param string $identifier The identifier of the translation
      * @param array|null $parameters The parameters to inject into the translation
      * @param string $locale The locale to which to translate to overrides the class location for one translation
-     *
      * @throws \Exception
-     *
      * @return string Returns the translation with replaced parameters
      *
      * @todo Make function Parameters interchangeable
@@ -129,22 +117,49 @@ class Translator
             $translation = $this->replaceParameter($translation, $parameters);
         }
 
+        if (session('translation_live_mode')) {
+            $id = $this->aHandler[$locale]->getDatabaseID($identifier);
+            $translation = $this->addLiveModeLink($translation, $id);
+        }
+
         // Return the translation
         return $translation;
     }
 
     /**
-     * Creates the Handler for the given locale
+     * Inject a Link to the edit page into the translation
      *
-     * @param string $locale The locale for which to create a handler
-     *
-     * @return HandlerInterface
+     * @param string $translation
+     * @param integer $id
+     * @return string
      */
+    public function addLiveModeLink($translation, $id) {
+
+        $route = route('translator.admin.edit', ['id' => $id]);
+
+        $inject = "<translation-anchor onclick='window.open(\"$route\", \"_blank\")' style='position: absolute; z-index: 999; cursor: pointer;'>&#9875;</translation-anchor>";
+
+        $translation = "$translation $inject";
+
+        return $translation;
+    }
+
+     /**
+      * Sets the Handler
+      *
+      * @param $locale
+      * @return HandlerInterface
+      */
     protected function createHandler($locale)
     {
         // Get the Handler class from config file
         $handler_class = $this->config['handler'];
-        // Define message as empty for later check
+
+        // Override Handler Class with Database Handler when in live mode
+        if (session('translation_live_mode')) {
+            $handler_class = DatabaseHandler::class;
+        }
+
         $oHandler = null;
 
         // Try to create new Instance of Handler and return it
@@ -225,7 +240,6 @@ class Translator
      * Check if the identifier exists in the database
      *
      * @param string $identifier The identifier to check
-     *
      * @return boolean Returns true if the identifier was found
      */
     public function hasIdentifier($identifier)
@@ -239,7 +253,6 @@ class Translator
      *
      * @param string $translation The translation with the parameter tags
      * @param array $parameters The parameters which to inject in the translation
-     *
      * @return string Returns the translation which its parameters replaced
      *
      * @todo Make Prefix and Suffix configurable
@@ -255,14 +268,11 @@ class Translator
     }
 
     /**
-     * Instead of the translation echo back 'Missing Translation' (when not in production!)
-     * and show the translation identifier ($identifier) and the locale
+     * Return the translation identifier and the locale
      *
      * @param string $identifier The identifier which is missing
      * @param string $locale The locale of which the translation is missing
-     *
      * @throws \Exception
-     *
      * @return string The string to display instead of the translation
      */
     protected function returnMissingTranslation($identifier, $locale)
@@ -280,9 +290,7 @@ class Translator
      * If the Session has no
      *
      * @param string $locale The locale to validate
-     *
      * @throws NotFoundResourceException
-     *
      * @return string Returns the validated Locale
      */
     public function validateLocale($locale)
@@ -345,7 +353,6 @@ class Translator
      *
      * @param string $locale The locale of the translations to get
      * @param string $group The group of the translations to get
-     *
      * @return array|mixed Returns an array of all translation in the $locale from group $group
      */
     public function getAllTranslations($locale, $group)
@@ -362,7 +369,6 @@ class Translator
      *
      * @param \Exception|string $exception The Exception to log
      * @param string $log_type The type of the log to write in the log file
-     *
      */
     protected function log($exception, $log_type = 'notice')
     {

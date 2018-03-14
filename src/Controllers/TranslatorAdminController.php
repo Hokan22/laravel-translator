@@ -1,15 +1,7 @@
 <?php
 
 /**
- * PHP version 5.6
- *
  * Laravel Controller for handling request to the translator admin interface
- *
- * @category LaravelController
- * @package  Hokan22\LaravelTranslator\Controllers
- * @author   Alexander Viertel <alexander@aviertel.de>
- * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 namespace Hokan22\LaravelTranslator\Controllers;
 
@@ -39,25 +31,27 @@ class TranslatorAdminController extends Controller
      */
     public function index()
     {
-        $locale = Input::get('locale', '');
         $search = Input::get('search', '');
+        $locale = Input::get('locale', '');
 
         $query = TranslationIdentifier::with('translations');
 
         if ($locale != '') {
-            $query = TranslationIdentifier::wheredoesntHave('translations', function ($query) use ($locale)
+            $query = $query->whereDoesntHave('translations', function ($query) use ($locale)
                 {
-                    $query->where('locale', 'like', $locale);
+                    $query->where('translations.locale', 'like', $locale);
                 }
             );
         }
 
         if ($search != '') {
-            $query = TranslationIdentifier::where('identifier',     'LIKE', '%'.$search.'%')
-                                            ->orWhere('parameters', 'LIKE', '%'.$search.'%')
-                                            ->orWhere('group',      'LIKE', '%'.$search.'%')
-                                            ->orWhere('page_name',  'LIKE', '%'.$search.'%')
-                                            ->orWhere('description','LIKE', '%'.$search.'%');
+            $query = $query->where(function ($query) use ($search) {
+                $query ->where('identifier',     'LIKE', '%'.$search.'%')
+                    ->orWhere('parameters', 'LIKE', '%'.$search.'%')
+                    ->orWhere('group',      'LIKE', '%'.$search.'%')
+                    ->orWhere('page_name',  'LIKE', '%'.$search.'%')
+                    ->orWhere('description','LIKE', '%'.$search.'%');
+            });
         }
 
         $trans_identifier = $query->orderBy('id')->paginate(20)->appends(Input::except('page'));
@@ -66,8 +60,11 @@ class TranslatorAdminController extends Controller
 
         return view('translator::index',
             [
-                'identifier'         =>  $trans_identifier,
-                'available_locales'  =>  $available_locales,
+                'identifier'        =>  $trans_identifier,
+                'available_locales' =>  $available_locales,
+                'page'              =>  Input::get('page'),
+                'query_locale'      =>  Input::get('locale'),
+                'search'            =>  Input::get('search'),
             ]
         );
     }
@@ -76,7 +73,6 @@ class TranslatorAdminController extends Controller
      * Return the edit view for a translation with $id
      *
      * @param integer $id ID of the translation Identifier to edit
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
@@ -84,11 +80,14 @@ class TranslatorAdminController extends Controller
         $identifier = TranslationIdentifier::findOrFail($id);
 
         $available_locales = TranslatorFacade::getConfigValue('available_locales');
-
+        
         return view('translator::edit',
             [
-                'identifier'         =>  $identifier,
-                'available_locales'  =>  $available_locales,
+                'identifier'        =>  $identifier,
+                'available_locales' =>  $available_locales,
+                'page'              =>  Input::get('page'),
+                'locale'            =>  Input::get('locale'),
+                'search'            =>  Input::get('search'),
             ]
         );
 
@@ -99,7 +98,6 @@ class TranslatorAdminController extends Controller
      *
      * @param integer $id ID of the identifier to edit
      * @param Request $request Object with the values of the identifier
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function postEdit($id, Request $request)
@@ -108,7 +106,7 @@ class TranslatorAdminController extends Controller
 
         foreach ($request->all() as $key => $value) {
 
-            if ($value === null || $key == '_token') {
+            if ($value === null || in_array($key, ['_token', 'page', 'locale', 'search'])) {
                 continue;
             }
 
@@ -134,7 +132,6 @@ class TranslatorAdminController extends Controller
      * Post edit of multiple Identifiers from the index view
      *
      * @param Request $request Request with multiple values of identifiers to update
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function postIdentifier(Request $request)
@@ -168,5 +165,20 @@ class TranslatorAdminController extends Controller
     public function test()
     {
         return view('translator::test');
+    }
+
+    /**
+     * @param $state string 'enabled|disabled'
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function changeLiveMode ($state) {
+
+        if ($state == 'enable') {
+            session(['translation_live_mode' => true]);
+        } else {
+            session(['translation_live_mode' => false]);
+        }
+
+        return redirect()->back();
     }
 }

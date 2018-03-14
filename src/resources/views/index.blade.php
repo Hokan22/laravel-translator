@@ -18,9 +18,17 @@
     }
 </style>
 
-<form action="{{route('translator.admin')}}" method="get">
-    <input type="search" name="search" placeholder="@t('search')" /><span style="font-size: x-large"> &#x1F50E;</span>
+
+<form action="{{route('translator.admin')}}" method="get" style="display: inline">
+    <input type="hidden" name="locale" value="{{$query_locale}}">
+    <input type="search" name="search" placeholder="search" value="{{$search}}"/><span style="font-size: x-large"> &#x1F50E;</span>
 </form>
+
+@if(session('translation_live_mode'))
+    <a href="{{route('translator.change.live_mode', ['state' => 'disable'])}}">Disable Live Mode</a>
+@else
+    <a href="{{route('translator.change.live_mode', ['state' => 'enable'])}}">Enable Live Mode</a>
+@endif
 
 <table border="1px" cellpadding="4" cellspacing="0" width="100%">
     <tr>
@@ -31,9 +39,9 @@
             @else
                 @foreach($column as $locale)
                     @if(app('request')->input('locale') === $locale)
-                        <td><a href="{{ route('translator.admin', ['page' => $identifier->currentPage()])}}">@t('Show All')</a></td>
+                        <td><a href="{{ route('translator.admin', ['search' =>  $search])}}">@t('Show All')</a></td>
                     @else
-                        <td><a href="{{ route('translator.admin', ['locale' => $locale, 'page' => $identifier->currentPage()])}}">@t('Show Missing')</a></td>
+                        <td><a href="{{ route('translator.admin', ['locale' => $locale, 'search' =>  $search])}}">@t('Show Missing')</a></td>
                     @endif
                 @endforeach
             @endif
@@ -51,12 +59,12 @@
             @endif
         @endforeach
     </tr>
-
-    <form action="{{ route('translator.admin', ['search' => app('request')->input('search')]) }}" method="post">
+    <form action="{{ route('translator.admin', ['search' => $search]) }}" method="post">
         {{ csrf_field() }}
         @foreach($identifier as $ident)
             <tr>
-                <td><a href="{{route('translator.admin.edit', ['id' => $ident->id])}}">{{$ident->id}}</a></td>
+
+                <td><a href="{{route('translator.admin.edit', ['id' => $ident->id, 'page' => $identifier->currentPage(), 'locale' => $query_locale, 'search' => $search])}}">{{$ident->id}}</a></td>
                 <td>{{ $ident->identifier }}<input type="hidden" name="{{$ident->id}}[identifier]" value="{{$ident->identifier}}" /></td>
                 <td><input name="{{$ident->id}}[parameters]" value="{{implode(',', $ident->parameters)}}" /></td>
                 <td><input name="{{$ident->id}}[group]" value="{{$ident->group}}"/></td>
@@ -73,7 +81,7 @@
                 {{$identifier->links()}}
             </td>
             <td >
-                <input type="submit" value="@t('Save Changes')" />
+                <input type="submit" value="Save Changes" />
             </td>
         </tr>
     </form>

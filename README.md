@@ -77,10 +77,6 @@ Now just change the 'handler' config parameter in ``` config\translator.php ``` 
 'handler' =>  Hokan22\LaravelTranslator\Handler\DatabaseHandler::class,
 ```
 
-## Security
-
-If you discover any security related issues, please email <security@aviertel.de> instead of using the issue tracker.
-
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

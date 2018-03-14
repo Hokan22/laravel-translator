@@ -10,7 +10,7 @@
         'LastChanged'
     ]
 ?>
-<a href="{{route('translator.admin')}}">@t('Admin')</a>
+<a href="{{route('translator.admin', ['page' =>  $page, 'locale' => $locale, 'search' => $search])}}">@t('Admin')</a>
 
 <br/>
 <br/>
@@ -49,7 +49,7 @@
         <br/>
         <br/>
     @endforeach
-    <input type="submit" value="@t('Save Changes')" />
+    <input type="submit" value="Save Changes" />
     @isset($saved)
         <div style="display: inline;background-color: green;">
             @t('Saved Successfully')

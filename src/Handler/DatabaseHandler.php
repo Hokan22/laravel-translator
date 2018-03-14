@@ -1,15 +1,7 @@
 <?php
 
 /**
- * PHP version 5.6
- *
  * Translation handler for cached translations in JSON Format
- *
- * @category TranslatorHandler
- * @package  Hokan22\LaravelTranslator\Handler
- * @author   Alexander Viertel <alexander@aviertel.de>
- * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 namespace Hokan22\LaravelTranslator\Handler;
 
@@ -60,11 +52,8 @@ class DatabaseHandler implements HandlerInterface
      *
      * @param string $identifier    Identifier of the translation
      * @param string $group         Group for the database query
-     *
-     *
      * @throws NotFoundResourceException
      * @throws TranslationNotFoundException
-     *
      * @return string returns the found translation for identifier
      */
     public function getTranslation($identifier, $group)
@@ -105,7 +94,6 @@ class DatabaseHandler implements HandlerInterface
      * Get all translation of $group
      *
      * @param string $group Group of the translations to return
-     *
      * @return array|mixed Translations of the given group
      */
     public function getAllTranslations($group = 'default')
@@ -119,5 +107,21 @@ class DatabaseHandler implements HandlerInterface
             }
         }
         return $return;
+    }
+
+    /**
+     * Get the DB ID of the Identifier
+     *
+     * @param $identifier
+     * @throws NotFoundResourceException
+     * @return integer
+     */
+    function getDatabaseID($identifier)
+    {
+        if(isset($this->translations[$identifier])) {
+            return $this->translations[$identifier]->id;
+        } else {
+            throw new NotFoundResourceException("The translation identifier '".$identifier."' could not be found");
+        }
     }
 }
