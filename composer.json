@@ -14,31 +14,21 @@
     "authors": [
         {
             "name": "Alexander Viertel",
-            "email": "bitbucket@aviertel.de",
+            "email": "git@aviertel.de",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": ">=5.5.9",
-        "laravel/framework": ">=5.0"
+        "php": ">=5.5.9"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.0",
-        "orchestra/testbench": "~3.4",
-        "orchestra/database": "~3.4"
+        "orchestra/testbench": "~3.4"
     },
     "autoload": {
         "psr-4": {
             "Hokan22\\LaravelTranslator\\": "src"
         }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Hokan22\\LaravelTranslator\\Tests\\": "tests"
-        }
-    },
-    "scripts": {
-        "test": "phpunit"
     },
     "config": {
         "sort-packages": true
