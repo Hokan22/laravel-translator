@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Builder;
  *
  * @property-read TranslationIdentifier $text
  *
+ * @method static Builder|Translations create(array $attributes = [])
  * @method static Builder|Translations findOrFail($value)
  * @method static Builder|Translations whereBody($value)
  * @method static Builder|Translations whereCommentableId($value)
