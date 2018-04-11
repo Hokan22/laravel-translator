@@ -96,8 +96,7 @@ class Translator
             // Log exception as error in Laravel log
             $this->log($exception, 'error');
 
-            // Listener: When app is not in production and listening is enabled
-            // add any missing translation identifier to the database
+            // Listener: When app listening is enabled add any missing translation identifier to the database
             if ($this->config['listening_enabled'] === true) {
                 $this->addMissingIdentifier($identifier, $parameters, 'default');
             }
@@ -160,23 +159,10 @@ class Translator
             $handler_class = DatabaseHandler::class;
         }
 
-        $oHandler = null;
-
         // Try to create new Instance of Handler and return it
         // If creating the Handler fails or it does not implement HandlerInterface the DatabaseHandler will be used
-        try {
-            $oHandler = new $handler_class($locale);
-            if (!is_a($handler_class, 'Hokan22\LaravelTranslator\Handler\HandlerInterface', true)) {
-                throw new \Exception($handler_class . ' does not implement HandlerInterface!');
-            }
-        } catch (\Exception $exception) {
-            // Log error and fallback procedure
-            $this->log($exception, 'error');
-            $this->log('Falling back to DatabaseHandler', 'warning');
+        $oHandler = new $handler_class($locale);
 
-            // Fallback to Database Handler
-            $oHandler = new DatabaseHandler($locale);
-        }
         return $oHandler;
     }
 
@@ -290,14 +276,10 @@ class Translator
      * If the Session has no
      *
      * @param string $locale The locale to validate
-     * @throws NotFoundResourceException
      * @return string Returns the validated Locale
      */
     public function validateLocale($locale)
     {
-        // Set message for later log warning
-        $message = '';
-
         //Get Locales configs from translator config file
         $avail_locales      = $this->config['available_locales'];
         $default_locale     = $this->config['default_locale'];
@@ -308,39 +290,55 @@ class Translator
         }
 
         // Fallback if empty locale was given (should be handled in middleware)
-        if ($locale == null){
+        if ($locale == null) {
             if (session()->get('locale') != '') {
                 $locale = session()->get('locale');
-            }
-            else {
+            } else {
                 return $default_locale;
             }
         }
 
         // If the given locale is not defined as valid, try to get a fallback locale
-        if (!in_array($locale, $avail_locales)){
+        if (!in_array($locale, $avail_locales)) {
+            $locale = $this->guessLocale($locale);
+        }
 
-            $found_locales = [];
+        return $locale;
+    }
 
-            // Find any available locale which contains the locale as substring
-            foreach ($avail_locales as $avail_locale) {
-                if (strpos($avail_locale, $locale) !== false){
-                    $found_locales[] = $avail_locale;
-                }
+    /**
+     * Tries to match the locale to an available Locale
+     *
+     * @param string $locale The locale to match
+     * @throws NotFoundResourceException
+     * @return string Returns the guessed Locale
+     */
+    private function guessLocale($locale)
+    {
+        $found_locales = [];
+
+        //Get Locales configs from translator config file
+        $avail_locales      = $this->config['available_locales'];
+        $default_locale     = $this->config['default_locale'];
+
+        // Find any available locale which contains the locale as substring
+        foreach ($avail_locales as $avail_locale) {
+            if (strpos($avail_locale, $locale) !== false){
+                $found_locales[] = $avail_locale;
             }
+        }
 
-            // Check if default locale is inside the found locales. If it was, use it!
-            if (in_array($default_locale, $found_locales)){
-                $message = 'Locale "'.$locale.'" was not found! Falling back to default locale "'.$default_locale.'"';
-                $locale = $default_locale;
+        // Check if default locale is inside the found locales. If it was, use it!
+        if (in_array($default_locale, $found_locales)){
+            $message = 'Locale "'.$locale.'" was not found! Falling back to default locale "'.$default_locale.'"';
+            $locale = $default_locale;
 
-                // Check if any Locale containing '$locale' was found previously
-            } elseif (count($found_locales, 0) >= 1) {
-                $message = 'Locale "'.$locale.'" was not found! Falling back to similar locale "'.$found_locales[0].'"';
-                $locale = $found_locales[0];
-            } else {
-                throw new NotFoundResourceException("Locale '".$locale."' was not found in available locales");
-            }
+            // Check if any Locale containing '$locale' was found previously
+        } elseif (count($found_locales) >= 1) {
+            $message = 'Locale "'.$locale.'" was not found! Falling back to similar locale "'.$found_locales[0].'"';
+            $locale = $found_locales[0];
+        } else {
+            throw new NotFoundResourceException("Locale '".$locale."' was not found in available locales");
         }
 
         if ($message !== '') $this->log($message, 'warning');
