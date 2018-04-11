@@ -18,8 +18,8 @@ Add the service provider to the providers array in `config/app.php`.
 
 ``` php
 'providers' => [
-    hokan22\LaravelTranslator\Providers\TranslatorServiceProvider::class,
-    hokan22\LaravelTranslator\Providers\TranslatorBladeServiceProvider::class,
+    Hokan22\LaravelTranslator\Provider\TranslatorProvider::class,
+    Hokan22\LaravelTranslator\Provider\TranslatorBladeProvider::class,
 ];
 ```
 
@@ -27,7 +27,7 @@ Additionally you might want to add an alias to the aliases array within the `con
 
 ``` php
 'aliases' => [
-    'Translator' => hokan22\LaravelTranslator\Facades\TranslatorFacade::class
+    'Translator' => hokan22\LaravelTranslator\TranslatorFacade::class
 ];
 ```
 
