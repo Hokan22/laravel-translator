@@ -102,14 +102,14 @@ class Translator
                 $this->addMissingIdentifier($identifier, $parameters, 'default');
             }
 
-            return $this->returnMissingTranslation($identifier, $locale);
+            $translation = $this->returnMissingTranslation($identifier, $locale);
 
         } catch (TranslationNotFoundException $exception) {
             // Thrown when no translation for the locale was found
             // Log exception as error in Laravel log
             $this->log($exception, 'error');
 
-            return $this->returnMissingTranslation($identifier, $locale);
+            $translation = $this->returnMissingTranslation($identifier, $locale);
         }
 
         // If there are no parameters, skip replacement
