@@ -27,7 +27,7 @@ Additionally you might want to add an alias to the aliases array within the `con
 
 ``` php
 'aliases' => [
-    'Translator' => hokan22\LaravelTranslator\TranslatorFacade::class
+    'Translator' => Hokan22\LaravelTranslator\TranslatorFacade::class,
 ];
 ```
 
@@ -37,7 +37,7 @@ You may want to use the middleware in order to control the global language setup
 
 ``` php
 protected $routeMiddleware = [
-    'translator' => hokan22\LaravelTranslator\Middleware\TranslatorMiddleware::class,
+    'translator' => \Hokan22\LaravelTranslator\Middleware\TranslatorMiddleware::class,
 ];
 ```
 
@@ -46,19 +46,20 @@ protected $routeMiddleware = [
 You can publish the configuration with:
 
 ``` php
-php artisan vendor:publish --provider="hokan22\LaravelTranslator\Providers\TranslatorServiceProvider"
+php artisan vendor:publish --provider="Hokan22\LaravelTranslator\Provider\TranslatorProvider"
 ```
 
 ## Usage
 
-This Package provides a easy extendable translation function with parameters for laravel.
+This Package provides an easily extendable translation function with parameters for laravel.
 
-After you registered the TranslatorBladeServiceProvider you can use the ```@t()``` or ```@translate()``` blade directive to translate strings into either the global locale or provide a locale for each string individually. 
+After you registered the TranslatorBladeServiceProvider you can use the ```@t()``` or ```@translate()``` blade directives to translate your website into different languages.
+You can define a locale through the translator middleware or define a locale for each translation individually.
 
-``` html
-@t('My translation')
-@t('Hello {name}', ['name' => world], 'en_US')
-@t('Hello World', [], 'de_DE')
+```
+@t('Hello World!')
+@t('Hello {name}!', ['name' => World], 'de_DE')
+@t('Hello World', [], 'fr_FR')
 ```
 
 ### Parameters
@@ -66,16 +67,26 @@ After you registered the TranslatorBladeServiceProvider you can use the ```@t()`
 Parameters are simply surrounded by `{}` and their replacement provided as an array as the second parameter of the blade translate directive.
 
 ```
-@t('Visit the site {link}.', ['link' => '<a href="example.com">LaravelTranslator</a>'])
+@t('Visit the site {link}.', ['link' => '<a href="example.com">Example.com</a>'])
 ```
+
+### Custom Locales
+
+If you use a different locale schema, just change the ```available_locales``` array in the config file.
 
 ### Custom Translation Handler
 
 To use your custom Translation Handler make sure it implements the Interface: ``` Hokan22\LaravelTranslator\Handler\HandlerInterface.php ```
 Now just change the 'handler' config parameter in ``` config\translator.php ``` to your custom Handler class.
-```
+``` php
 'handler' =>  Hokan22\LaravelTranslator\Handler\DatabaseHandler::class,
 ```
+
+### Custom Translation Routes
+
+By default the Translator admin Interface is reachable under ```/translator/admin```.
+To override the default routes change the ```custom_routes``` parameter in the config to ```true``` and define the routes as you need them.
+NOTE: In Order to use the "Live Mode" make sure you give the route to ```TranslatorAdminController@edit```  the name: ```'translator.admin.edit'```.
 
 ## License
 
