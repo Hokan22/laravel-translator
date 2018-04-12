@@ -145,8 +145,6 @@ class Translator
             $handler_class = DatabaseHandler::class;
         }
 
-        $oHandler = new $handler_class($locale);
-
         try {
             $oHandler = new $handler_class($locale);
 
