@@ -11,20 +11,12 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 /**
  * Class LocaleHandler
  *
- * @category TranslatorHandler
  * @package  Hokan22\LaravelTranslator\Handler
  * @author   Alexander Viertel <alexander@aviertel.de>
  * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
-class DatabaseHandler implements HandlerInterface
+class DatabaseHandler extends DefaultHandler
 {
-    /**
-     * @var string          $locale         The locale to translate to
-     * @var array|array[]   $translations   Array with the identifiers as keys and the Texts object as value
-     */
-    protected $locale, $translations;
-
     /**
      * DatabaseHandler constructor.
      *
@@ -32,19 +24,9 @@ class DatabaseHandler implements HandlerInterface
      */
     public function __construct($locale)
     {
-        $this->locale = $locale;
+        parent::__construct($locale);
 
         $this->refreshCache();
-    }
-
-    /**
-     * Returns the currently set locale
-     *
-     * @return string Return the locale to translate to
-     */
-    public function getLocale()
-    {
-        return $this->locale;
     }
 
     /**
@@ -58,7 +40,6 @@ class DatabaseHandler implements HandlerInterface
      */
     public function getTranslation($identifier, $group)
     {
-
         if (isset($this->translations[$identifier])) {
             if ($this->translations[$identifier]->translation == null) {
                 throw new TranslationNotFoundException("The translation for identifier '".$identifier."' and locale '".$this->locale."' could not be found");
@@ -76,7 +57,6 @@ class DatabaseHandler implements HandlerInterface
      */
     public function refreshCache()
     {
-        // Get all Texts with translations for the given locale
         $translations = new TranslationIdentifier();
         $translations = $translations->leftJoin('translations', function ($join)
             {
@@ -94,7 +74,7 @@ class DatabaseHandler implements HandlerInterface
      * Get all translation of $group
      *
      * @param string $group Group of the translations to return
-     * @return array|mixed Translations of the given group
+     * @return array Translations of the given group
      */
     public function getAllTranslations($group = 'default')
     {

@@ -5,11 +5,9 @@
  *
  * Translator Config File.
  *
- * @category Config
  * @package  Hokan22\LaravelTranslator\config
  * @author   Alexander Viertel <alexander@aviertel.de>
  * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 
 return [
@@ -18,11 +16,11 @@ return [
     | Default Locale
     |--------------------------------------------------------------------------
     |
-    | This is the default locale. It is used, when no other locale was defined,
-    | the defined locale is not within available_locales or
-    | no translation for the given string and locale was found
+    | This is the default locale. It is used, when no locale was given
+    | or the given locale is not within available_locales
+    |
     */
-    'default_locale' => 'de_DE',
+    'default_locale' => 'en_US',
 
     /*
     |--------------------------------------------------------------------------
@@ -30,14 +28,12 @@ return [
     |--------------------------------------------------------------------------
     |
     | List of available locales.
-    | When a Text has a Translation for a locale not specified below it will
-    | not be translated, because the Translator first checks if a given locale
-    | is valid, by comparing them with the locales below.
+    | Given locales not within available_locales array will not be translated
     |
     */
     'available_locales' => [
-        'de_DE',
         'en_US',
+        'de_DE',
     ],
 
     /*
@@ -45,8 +41,8 @@ return [
     | Enable Listening
     |--------------------------------------------------------------------------
     |
-    | When listening is enable and the APP_ENV is not production
-    | missing translation will be added to the Database
+    | When the Translator gets Strings which it can not find in the database
+    | and listening_enabled is true it will save the Strings to the database
     |
     */
     'listening_enabled' => false,
@@ -57,8 +53,9 @@ return [
     | Handler
     |--------------------------------------------------------------------------
     |
-    | The handler (MVC Model) to use when translating text
-    | The handler MUST implement Translator\Handler\HandlerInterface.php
+    | The handler used to get the Translations.
+    | The default DatabaseHandler should not be used in a production
+    | environment as it needs to query the database for each translation
     |
     */
     'handler' =>  Hokan22\LaravelTranslator\Handler\DatabaseHandler::class,
@@ -94,8 +91,8 @@ return [
     | If set to false the Translator Routes for Admin Interface and Test View,
     | defined in the Translators route.php will be used
     |
-    | NOTE: When using the Live Translation mode make sure the admin route is
-    | named 'translator.admin.edit'!
+    | NOTE: When using the Live Translation mode make sure the admin edit route
+    | is named 'translator.admin.edit'!
     |
     */
     'custom_routes' =>  false,

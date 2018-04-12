@@ -1,15 +1,14 @@
 <div>
-    <p>@translate('test2', ['test_parameter' => 'Test'])</p>
-    <p>@translate('test')</p>
+    <p>@translate('test_translation')</p>
 
-    <p>@translate('test')</p>
-    <p>@translate('greeting', ['name' => 'John'])</p>
-    <p>@translate('multi_parameter_test',   [
+    <p>@translate('test_single_parameter', ['name' => 'John'])</p>
+
+    <p>@translate('test_multi_parameter',   [
                                                 'name' => 'John',
                                                 'surname' => 'Doe',
                                                 'test' => '<i>hallo</i>'
                                             ])</p>
-    <p>@translate('test')</p>
+
     <p>@translate('dump_translator')</p>
 </div>
 

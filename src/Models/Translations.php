@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Builder;
  *
  * @property-read TranslationIdentifier $text
  *
+ * @method static Builder|Translations create(array $attributes = [])
  * @method static Builder|Translations findOrFail($value)
  * @method static Builder|Translations whereBody($value)
  * @method static Builder|Translations whereCommentableId($value)
@@ -32,11 +33,9 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Translations whereHas($relation, \Closure $callback = null, $operator = '>=', $count = 1)
  * @method static Builder|Translations where($column, $operator = null, $value = null, $boolean = 'and')
  *
- * @category Models
  * @package  Hokan22\LaravelTranslator\Models
  * @author   Alexander Viertel <alexander@aviertel.de>
  * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 class Translations extends Model
 {
