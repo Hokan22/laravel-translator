@@ -5,11 +5,9 @@
  *
  * Translator Config File.
  *
- * @category Config
  * @package  Hokan22\LaravelTranslator\config
  * @author   Alexander Viertel <alexander@aviertel.de>
  * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 
 return [

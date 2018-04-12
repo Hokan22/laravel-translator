@@ -11,11 +11,9 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 /**
  * Class LocaleHandler
  *
- * @category TranslatorHandler
  * @package  Hokan22\LaravelTranslator\Handler
  * @author   Alexander Viertel <alexander@aviertel.de>
  * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 class DatabaseHandler implements HandlerInterface
 {

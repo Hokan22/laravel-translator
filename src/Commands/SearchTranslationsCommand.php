@@ -13,11 +13,9 @@ use Hokan22\LaravelTranslator\TranslatorFacade;
 /**
  * Class SearchTranslationsCommand
  *
- * @category ArtisanCommand
  * @package  Hokan22\LaravelTranslator\commands
  * @author   Alexander Viertel <alexander@aviertel.de>
  * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 class SearchTranslationsCommand extends Command
 {

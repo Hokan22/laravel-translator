@@ -13,11 +13,9 @@ use Illuminate\Support\Str;
 /**
  * Class TranslatorBladeProvider
  *
- * @category Provider
  * @package  Hokan22\LaravelTranslator\Provider
  * @author   Alexander Viertel <alexander@aviertel.de>
  * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 class TranslatorBladeProvider extends ServiceProvider
 {

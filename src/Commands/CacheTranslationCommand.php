@@ -13,11 +13,9 @@ use Hokan22\LaravelTranslator\Models\TranslationIdentifier;
 /**
  * Class CacheTranslationCommand
  *
- * @category ArtisanCommand
  * @package  Hokan22\LaravelTranslator\commands
  * @author   Alexander Viertel <alexander@aviertel.de>
  * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 class CacheTranslationCommand extends Command
 {
