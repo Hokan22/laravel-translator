@@ -57,8 +57,8 @@ return [
     | Handler
     |--------------------------------------------------------------------------
     |
-    | The handler (MVC Model) to use when translating text
-    | The handler MUST implement Translator\Handler\HandlerInterface.php
+    | The handler to use when translating text
+    | The handler should extend from the DefaultHandler
     |
     */
     'handler' =>  Hokan22\LaravelTranslator\Handler\DatabaseHandler::class,

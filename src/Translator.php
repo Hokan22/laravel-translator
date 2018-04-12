@@ -6,7 +6,7 @@
 namespace Hokan22\LaravelTranslator;
 
 use Hokan22\LaravelTranslator\Handler\DatabaseHandler;
-use Hokan22\LaravelTranslator\Handler\HandlerInterface;
+use Hokan22\LaravelTranslator\Handler\DefaultHandler;
 use Hokan22\LaravelTranslator\Handler\TranslationNotFoundException;
 use Hokan22\LaravelTranslator\Models\TranslationIdentifier;
 use Illuminate\Support\Facades\Config;
@@ -148,7 +148,7 @@ class Translator
       * Sets the Handler
       *
       * @param $locale
-      * @return HandlerInterface
+      * @return DefaultHandler
       */
     protected function createHandler($locale)
     {
@@ -175,7 +175,7 @@ class Translator
             $this->log('Falling back to DatabaseHandler', 'warning');
 
             // Fallback to Database Handler
-            $oHandler = new DatabaseHandler($locale);
+            $oHandler = new DefaultHandler($locale);
         }
         return $oHandler;
     }

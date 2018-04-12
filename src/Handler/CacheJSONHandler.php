@@ -16,14 +16,8 @@ use Hokan22\LaravelTranslator\TranslatorFacade;
  * @license  http://opensource.org/licenses/MIT MIT
  * @link     https://github.com/Hokan22/laravel-translator
  */
-class CacheJSONHandler implements HandlerInterface
+class CacheJSONHandler extends DefaultHandler
 {
-    /**
-     * @var string $locale The locale to translate to
-     * @var array|array[] $translations Array with the identifiers as keys and the Texts object as value
-     */
-    protected $locale, $translations;
-
     /**
      * DatabaseHandler constructor.
      *
@@ -32,19 +26,9 @@ class CacheJSONHandler implements HandlerInterface
      */
     public function __construct($locale)
     {
-        $this->locale   = $locale;
+        parent::__construct($locale);
 
         $this->refreshCache();
-    }
-
-    /**
-     * Returns the currently set locale
-     *
-     * @return string Return the locale to translate to
-     */
-    public function getLocale()
-    {
-        return $this->locale;
     }
 
     /**

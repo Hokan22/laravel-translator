@@ -1,19 +1,14 @@
 <?php
 
 /**
- * PHP version 5.6
  *
- * Interface to be implemented by all Handlers
+ * Base Handler to extend from
  *
- * @category TranslatorHandler
  * @package  Hokan22\LaravelTranslator\Handler
  * @author   Alexander Viertel <alexander@aviertel.de>
  * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 namespace Hokan22\LaravelTranslator\Handler;
-
-use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 /**
  * Custom Exception to distinguish if the Translation Identifier or
@@ -40,45 +35,60 @@ class TranslationCacheNotFound extends \Exception {}
 /**
  * Interface HandlerInterface
  */
-interface HandlerInterface
+class DefaultHandler
 {
+    /**
+     * @var string          $locale         The locale to translate to
+     * @var array|array[]   $translations   Array with the identifiers as keys and the Texts object as value
+     */
+    protected $locale, $translations;
+
     /**
      * HandlerInterface constructor.
      *
      * @param $locale
-     * @throws TranslationNotFoundException
      */
-    function __construct($locale);
-
-    /**
-     * Get the translation of a given identifier
-     *
-     * @param string $identifier
-     * @param string $group
-     * @throws NotFoundResourceException
-     * @throws TranslationNotFoundException
-     * @return string
-     */
-    function getTranslation($identifier, $group);
+    function __construct($locale){
+         $this->locale = $locale;
+    }
 
     /**
      * Should return the locale currently set in the handler
      *
      * @return string
      */
-    function getLocale();
+    function getLocale(){
+        return $this->locale;
+    }
+
+    /**
+     * Get the translation of a given identifier
+     *
+     * @param string $identifier
+     * @param string $group
+     * @return string
+     */
+    function getTranslation($identifier, $group){
+        return $identifier;
+    }
 
     /**
      * Refresh the internal Cache
+     *
+     * @return bool
      */
-    function refreshCache();
+    function refreshCache(){
+        return true;
+    }
 
     /**
      * Get all translations of a given group
      *
      * @param string $group
-     * @return mixed
+     * @return array
      */
-    function getAllTranslations($group);
+    function getAllTranslations($group){
+        return [];
+    }
 
 }
