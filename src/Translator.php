@@ -300,15 +300,13 @@ class Translator
             }
         }
 
-        if (in_array($default_locale, $found_locales)){
+        if (in_array($default_locale, $found_locales) || count($found_locales) == 0){
             $message = 'Locale "'.$locale.'" was not found! Falling back to default locale "'.$default_locale.'"';
             $locale = $default_locale;
 
-        } elseif (count($found_locales) >= 1) {
+        } else {
             $message = 'Locale "'.$locale.'" was not found! Falling back to similar locale "'.$found_locales[0].'"';
             $locale = $found_locales[0];
-        } else {
-            throw new NotFoundResourceException("Locale '".$locale."' was not found in available locales");
         }
 
         if ($message !== '') $this->log($message, 'warning');
