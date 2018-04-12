@@ -26,8 +26,7 @@ class TranslatorProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/translator.php', 'translator');
 
-        $this->app->singleton('Translator', function ()
-            {
+        $this->app->singleton('Translator', function () {
                 return new Translator();
             }
         );
@@ -38,27 +37,21 @@ class TranslatorProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes(
-            [
+        $this->publishes([
                 __DIR__ . '/../config/translator.php' => config_path('translator.php'),
             ],
             'config'
         );
 
         $this->loadMigrationsFrom(__DIR__.'/../migrations/');
-
+        $this->loadRoutesFrom(__DIR__.'/../resources/routes.php');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'translator');
 
-        $this->loadRoutesFrom(__DIR__.'/../resources/routes.php');
-
-        if ($this->app->runningInConsole())
-        {
-            $this->commands(
-                [
-                    CacheTranslationCommand::class,
-                    SearchTranslationsCommand::class,
-                ]
-            );
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                CacheTranslationCommand::class,
+                SearchTranslationsCommand::class,
+            ]);
         }
     }
 }

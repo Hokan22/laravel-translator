@@ -88,7 +88,7 @@ class Translator
             $this->log($exception, 'error');
 
             if ($this->config['listening_enabled'] === true) {
-                $this->addMissingIdentifier($identifier, $parameters, 'default');
+                $this->addMissingIdentifierToDB($identifier, $parameters, 'default');
             }
 
             return $this->returnMissingTranslation($identifier, $locale);
@@ -173,7 +173,7 @@ class Translator
      * @param array $parameters The parameters available for the translation
      * @param string $group The group to put the identifier in
      */
-    public function addMissingIdentifier($identifier, $parameters, $group)
+    public function addMissingIdentifierToDB($identifier, $parameters, $group)
     {
         if (!$this->hasIdentifier($identifier)) {
 
@@ -289,10 +289,10 @@ class Translator
      */
     private function guessLocale($locale)
     {
-        $found_locales = [];
-
         $avail_locales      = $this->config['available_locales'];
         $default_locale     = $this->config['default_locale'];
+
+        $found_locales = [];
 
         foreach ($avail_locales as $avail_locale) {
             if (strpos($avail_locale, $locale) !== false){
