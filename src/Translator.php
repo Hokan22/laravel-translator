@@ -147,21 +147,17 @@ class Translator
 
         $oHandler = new $handler_class($locale);
 
-        // Try to create new Instance of Handler and return it
-        // If creating the Handler fails or it does not implement HandlerInterface the DatabaseHandler will be used
         try {
             $oHandler = new $handler_class($locale);
-            if (!is_a($handler_class, 'Hokan22\LaravelTranslator\Handler\HandlerInterface', true)) {
-                throw new \Exception($handler_class . ' does not implement HandlerInterface!');
-            }
+
         } catch (\Exception $exception) {
-            // Log error and fallback procedure
+
             $this->log($exception, 'error');
             $this->log('Falling back to DatabaseHandler', 'warning');
 
-            // Fallback to Database Handler
             $oHandler = new DefaultHandler($locale);
         }
+
         return $oHandler;
     }
 
