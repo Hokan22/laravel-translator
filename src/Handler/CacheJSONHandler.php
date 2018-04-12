@@ -55,10 +55,9 @@ class CacheJSONHandler implements HandlerInterface
      */
     public function getTranslation($identifier, $group = 'default')
     {
-        // Return translation if found otherwise return TranslationNotInCacheException
-        // NOTE: This should never trigger the addition of the identifier to the database,
-        // because the cache will not be updated automatically.
-        // So not finding the same identifier twice in the cache, will result in an error.
+        // NOTE: This should never trigger the addition of the identifier to the database!
+        // Because the cache will not be updated automatically.
+        // the same identifier will not be found twice in the cache, which will result in a duplicate key sql error.
         if (isset($this->translations[$group][$identifier])) {
             return $this->translations[$group][$identifier];
         }
@@ -75,17 +74,14 @@ class CacheJSONHandler implements HandlerInterface
      */
     public function refreshCache($group = 'default')
     {
-        // Construct the cache folder path from the cache base path defined in the config and the given locale
         $locale_dir = TranslatorFacade::getConfigValue('cache_path').$this->locale;
 
-        // If a Group is defined just get the translations from that group
         try {
              $trans_identifier = json_decode(file_get_contents($locale_dir.'/'.$group.'.json'), true);
         } catch (\ErrorException $e) {
             throw new TranslationCacheNotFound("The Translation cache file '".$locale_dir.'/'.$group.'.json'."' could not be found!");
         }
 
-        // Set class Attribute to constructed array
         $this->translations[$group] = $trans_identifier;
     }
 

@@ -88,7 +88,6 @@ class TranslatorAdminController extends Controller
                 'search'            =>  Input::get('search'),
             ]
         );
-
     }
 
     /**
@@ -169,8 +168,8 @@ class TranslatorAdminController extends Controller
      * @param $state string 'enabled|disabled'
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function changeLiveMode ($state) {
-
+    public function changeLiveMode ($state)
+    {
         if ($state == 'enable') {
             session(['translation_live_mode' => true]);
         } else {

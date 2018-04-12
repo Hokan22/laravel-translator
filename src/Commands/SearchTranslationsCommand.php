@@ -58,7 +58,6 @@ class SearchTranslationsCommand extends Command
      */
     public function handle()
     {
-        // Get start time
         $start = microtime(true);
 
         $this->line('');

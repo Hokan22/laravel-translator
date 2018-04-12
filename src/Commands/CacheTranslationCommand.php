@@ -51,26 +51,20 @@ class CacheTranslationCommand extends Command
      */
     public function handle()
     {
-        // Get Parameters
         $locale = $this->argument('locale');
 
-        // Check if the locale was given as a normal string
         if (!is_string($locale))
         {
             $this->warn("Please specify only one locale");
             return;
         }
 
-        //Set the Path where to cache translations to
         $file_path = TranslatorFacade::getConfigValue('cache_path').$locale.'/';
 
-        // Load Groups and Identifier with Translations from DB
         $groups = $this->getGroups();
         $translations = $this->loadFromDB($locale);
 
-        // Create locale directory
         if (!file_exists($file_path)) {
-            // Ask for Permission to create
             $this->alert("The defined cache folder (".$file_path.") does not exists.");
             if (!$this->confirm('Do you want to create it now?')) {
                 return;
@@ -80,7 +74,7 @@ class CacheTranslationCommand extends Command
 
         foreach ($groups as $key => $group) {
             $array = [];
-            // Get translation with $group
+
             $tmp = $translations->where('group', $group);
 
             foreach ($tmp as $identifier) {
@@ -94,7 +88,6 @@ class CacheTranslationCommand extends Command
             }
 
             if (!empty($array)) {
-                // Make the filename from path and group name
                 $file_name = $file_path.$group.'.json';
                 file_put_contents($file_name, json_encode($array));
             }
@@ -119,8 +112,7 @@ class CacheTranslationCommand extends Command
      */
     protected function loadFromDB($locale)
     {
-        // Get all Texts with translations for the given locale
-        $trans_identifier =   new TranslationIdentifier();
+        $trans_identifier = new TranslationIdentifier();
 
         $trans_identifier = $trans_identifier->with('translations')->whereHas('translations', function ($item) use ($locale)
         {

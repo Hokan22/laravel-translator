@@ -56,7 +56,6 @@ class DatabaseHandler implements HandlerInterface
      */
     public function getTranslation($identifier, $group)
     {
-
         if (isset($this->translations[$identifier])) {
             if ($this->translations[$identifier]->translation == null) {
                 throw new TranslationNotFoundException("The translation for identifier '".$identifier."' and locale '".$this->locale."' could not be found");
@@ -74,7 +73,6 @@ class DatabaseHandler implements HandlerInterface
      */
     public function refreshCache()
     {
-        // Get all Texts with translations for the given locale
         $translations = new TranslationIdentifier();
         $translations = $translations->leftJoin('translations', function ($join)
             {
@@ -92,7 +90,7 @@ class DatabaseHandler implements HandlerInterface
      * Get all translation of $group
      *
      * @param string $group Group of the translations to return
-     * @return array|mixed Translations of the given group
+     * @return array Translations of the given group
      */
     public function getAllTranslations($group = 'default')
     {
