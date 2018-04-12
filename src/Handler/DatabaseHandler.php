@@ -11,11 +11,9 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 /**
  * Class LocaleHandler
  *
- * @category TranslatorHandler
  * @package  Hokan22\LaravelTranslator\Handler
  * @author   Alexander Viertel <alexander@aviertel.de>
  * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 class DatabaseHandler extends DefaultHandler
 {
@@ -42,7 +40,6 @@ class DatabaseHandler extends DefaultHandler
      */
     public function getTranslation($identifier, $group)
     {
-
         if (isset($this->translations[$identifier])) {
             if ($this->translations[$identifier]->translation == null) {
                 throw new TranslationNotFoundException("The translation for identifier '".$identifier."' and locale '".$this->locale."' could not be found");
@@ -60,7 +57,6 @@ class DatabaseHandler extends DefaultHandler
      */
     public function refreshCache()
     {
-        // Get all Texts with translations for the given locale
         $translations = new TranslationIdentifier();
         $translations = $translations->leftJoin('translations', function ($join)
             {
@@ -78,7 +74,7 @@ class DatabaseHandler extends DefaultHandler
      * Get all translation of $group
      *
      * @param string $group Group of the translations to return
-     * @return array|mixed Translations of the given group
+     * @return array Translations of the given group
      */
     public function getAllTranslations($group = 'default')
     {

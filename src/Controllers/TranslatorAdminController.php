@@ -16,11 +16,9 @@ use Illuminate\Support\Facades\Input;
 /**
  * Class TranslatorAdminController
  *
- * @category LaravelController
  * @package  Hokan22\LaravelTranslator\Controllers
  * @author   Alexander Viertel <alexander@aviertel.de>
  * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/Hokan22/laravel-translator
  */
 class TranslatorAdminController extends Controller
 {
@@ -90,7 +88,6 @@ class TranslatorAdminController extends Controller
                 'search'            =>  Input::get('search'),
             ]
         );
-
     }
 
     /**
@@ -171,8 +168,8 @@ class TranslatorAdminController extends Controller
      * @param $state string 'enabled|disabled'
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function changeLiveMode ($state) {
-
+    public function changeLiveMode ($state)
+    {
         if ($state == 'enable') {
             session(['translation_live_mode' => true]);
         } else {
