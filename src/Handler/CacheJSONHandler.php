@@ -89,14 +89,10 @@ class CacheJSONHandler implements HandlerInterface
      * Get all translation of $group
      *
      * @param string $group Group of the translations to return
-     * @throws TranslationCacheNotFound
      * @return array|mixed Translations of the given group
      */
     public function getAllTranslations($group)
     {
-        if (!isset($this->translations[$group])) {
-            $this->refreshCache($group);
-        }
         return $this->translations[$group];
     }
 }
