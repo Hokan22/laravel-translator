@@ -59,7 +59,7 @@ class DatabaseHandler extends DefaultHandler
         $translations = $translations->leftJoin('translations', function($join)
             {
                 $join->on('translation_identifiers.id', '=', 'translations.translation_identifier_id')
-                     ->where('locale', $this->locale);
+                    ->where('locale', $this->locale);
             }
             )->get();
 

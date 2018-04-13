@@ -44,15 +44,10 @@
             <textarea rows="4" cols="100" name="{{$locale}}">{{str_replace("<br />", "\n", $translation->translation)}}</textarea>
         @else
             <br/>
-            <textarea rows="4" cols="100" name="{{$locale}}" placeholder="@t('Missing Translation')"></textarea>
+            <textarea rows="4" cols="100" name="{{$locale}}" placeholder="-/-"></textarea>
         @endif
         <br/>
         <br/>
     @endforeach
     <input type="submit" value="Save Changes" />
-    @isset($saved)
-        <div style="display: inline;background-color: green;">
-            @t('Saved Successfully')
-        </div>
-    @endisset
 </form>

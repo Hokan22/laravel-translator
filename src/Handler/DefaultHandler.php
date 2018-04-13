@@ -49,7 +49,7 @@ class DefaultHandler
      * @param $locale
      */
     function __construct($locale) {
-         $this->locale = $locale;
+        $this->locale = $locale;
     }
 
     /**

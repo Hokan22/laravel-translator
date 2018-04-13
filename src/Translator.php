@@ -128,12 +128,12 @@ class Translator
         return $translation;
     }
 
-     /**
-      * Sets the Handler
-      *
-      * @param $locale
-      * @return DefaultHandler
-      */
+    /**
+     * Sets the Handler
+     *
+     * @param $locale
+     * @return DefaultHandler
+     */
     protected function createHandler($locale) {
         $handler_class = $this->config['handler'];
 
