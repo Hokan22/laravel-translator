@@ -39,8 +39,7 @@ class CacheTranslationCommand extends Command
     /**
      * Create a new command instance.
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -49,8 +48,7 @@ class CacheTranslationCommand extends Command
      *
      * @throws \Exception
      */
-    public function handle()
-    {
+    public function handle() {
         $locale = $this->argument('locale');
 
         if (!is_string($locale))
@@ -59,13 +57,13 @@ class CacheTranslationCommand extends Command
             return;
         }
 
-        $file_path = TranslatorFacade::getConfigValue('cache_path').$locale.'/';
+        $file_path = TranslatorFacade::getConfigValue('cache_path') . $locale . '/';
 
         $groups = $this->getGroups();
         $translations = $this->loadFromDB($locale);
 
         if (!file_exists($file_path)) {
-            $this->alert("The defined cache folder (".$file_path.") does not exists.");
+            $this->alert("The defined cache folder (" . $file_path . ") does not exists.");
             if (!$this->confirm('Do you want to create it now?')) {
                 return;
             }
@@ -88,7 +86,7 @@ class CacheTranslationCommand extends Command
             }
 
             if (!empty($array)) {
-                $file_name = $file_path.$group.'.json';
+                $file_name = $file_path . $group . '.json';
                 file_put_contents($file_name, json_encode($array));
             }
         }
@@ -99,8 +97,7 @@ class CacheTranslationCommand extends Command
      *
      * @return array
      */
-    protected function getGroups()
-    {
+    protected function getGroups() {
         return DB::table('translation_identifiers')->select('group')->groupBy(['group'])->get()->pluck('group');
     }
 
@@ -114,7 +111,7 @@ class CacheTranslationCommand extends Command
     {
         $trans_identifier = new TranslationIdentifier();
 
-        $trans_identifier = $trans_identifier->with('translations')->whereHas('translations', function ($item) use ($locale)
+        $trans_identifier = $trans_identifier->with('translations')->whereHas('translations', function($item) use ($locale)
         {
             return $item->where('locale', $locale);
         }

@@ -30,8 +30,7 @@ class TranslatorMiddleware
      *
      * @todo Validate Browser locale string (https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4)
      */
-    public function handle(Request $request, Closure $next)
-    {
+    public function handle(Request $request, Closure $next) {
         if (Session::has('locale') || auth()->check()) {
             $locale = Session::has('locale') ? session()->get('locale') : auth()->user()->language;
 

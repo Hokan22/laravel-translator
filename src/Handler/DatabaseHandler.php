@@ -22,8 +22,7 @@ class DatabaseHandler extends DefaultHandler
      *
      * @param string $locale The locale of the translations
      */
-    public function __construct($locale)
-    {
+    public function __construct($locale) {
         parent::__construct($locale);
 
         $this->refreshCache();
@@ -38,15 +37,14 @@ class DatabaseHandler extends DefaultHandler
      * @throws TranslationNotFoundException
      * @return string returns the found translation for identifier
      */
-    public function getTranslation($identifier, $group)
-    {
+    public function getTranslation($identifier, $group) {
         if (isset($this->translations[$identifier])) {
             if ($this->translations[$identifier]->translation == null) {
-                throw new TranslationNotFoundException("The translation for identifier '".$identifier."' and locale '".$this->locale."' could not be found");
+                throw new TranslationNotFoundException("The translation for identifier '" . $identifier . "' and locale '" . $this->locale . "' could not be found");
             }
             return $this->translations[$identifier]->translation;
         } else {
-            throw new NotFoundResourceException("The translation identifier '".$identifier."' could not be found");
+            throw new NotFoundResourceException("The translation identifier '" . $identifier . "' could not be found");
         }
     }
 
@@ -58,9 +56,9 @@ class DatabaseHandler extends DefaultHandler
     public function refreshCache()
     {
         $translations = new TranslationIdentifier();
-        $translations = $translations->leftJoin('translations', function ($join)
+        $translations = $translations->leftJoin('translations', function($join)
             {
-                $join->on( 'translation_identifiers.id', '=', 'translations.translation_identifier_id')
+                $join->on('translation_identifiers.id', '=', 'translations.translation_identifier_id')
                      ->where('locale', $this->locale);
             }
             )->get();
@@ -76,8 +74,7 @@ class DatabaseHandler extends DefaultHandler
      * @param string $group Group of the translations to return
      * @return array Translations of the given group
      */
-    public function getAllTranslations($group = 'default')
-    {
+    public function getAllTranslations($group = 'default') {
         $return = [];
         foreach (collect($this->translations)->where('group', $group) as $key => $translation) {
             if ($translation->translation == null) {
@@ -98,10 +95,10 @@ class DatabaseHandler extends DefaultHandler
      */
     function getDatabaseID($identifier)
     {
-        if(isset($this->translations[$identifier])) {
+        if (isset($this->translations[$identifier])) {
             return $this->translations[$identifier]->id;
         } else {
-            throw new NotFoundResourceException("The translation identifier '".$identifier."' could not be found");
+            throw new NotFoundResourceException("The translation identifier '" . $identifier . "' could not be found");
         }
     }
 }
