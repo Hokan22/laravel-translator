@@ -22,8 +22,7 @@ class TranslatorBladeProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot()
-    {
+    public function boot() {
         Blade::directive('translate', function ($expression) {
 
                 $expression = $this->stripParentheses($expression);
@@ -49,8 +48,7 @@ class TranslatorBladeProvider extends ServiceProvider
      * @param string $expression
      * @return string
      */
-    public function stripParentheses($expression)
-    {
+    public function stripParentheses($expression) {
         if (Str::startsWith($expression, '(')) {
             $expression = substr($expression, 1, -1);
         }
