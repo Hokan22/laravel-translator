@@ -44,7 +44,7 @@
             <textarea rows="4" cols="100" name="{{$locale}}">{{str_replace("<br />", "\n", $translation->translation)}}</textarea>
         @else
             <br/>
-            <textarea rows="4" cols="100" name="{{$locale}}" placeholder="@t('Missing Translation')"></textarea>
+            <textarea rows="4" cols="100" name="{{$locale}}" placeholder="-/-"></textarea>
         @endif
         <br/>
         <br/>
