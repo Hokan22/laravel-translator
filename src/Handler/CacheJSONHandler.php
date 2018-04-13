@@ -61,7 +61,7 @@ class CacheJSONHandler extends DefaultHandler
         $locale_dir = TranslatorFacade::getConfigValue('cache_path').$this->locale;
 
         try {
-             $trans_identifier = json_decode(file_get_contents($locale_dir.'/'.$group.'.json'), true);
+            $trans_identifier = json_decode(file_get_contents($locale_dir.'/'.$group.'.json'), true);
         } catch (\ErrorException $e) {
             throw new TranslationCacheNotFound("The Translation cache file '".$locale_dir.'/'.$group.'.json'."' could not be found!");
         }
