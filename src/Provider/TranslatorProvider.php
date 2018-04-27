@@ -5,6 +5,7 @@
  */
 namespace Hokan22\LaravelTranslator\Provider;
 
+use Hokan22\LaravelTranslator\Commands\ClearUnusedTranslationsCommand;
 use Hokan22\LaravelTranslator\Commands\SearchTranslationsCommand;
 use Hokan22\LaravelTranslator\Commands\CacheTranslationCommand;
 use Hokan22\LaravelTranslator\Translator;
@@ -51,6 +52,7 @@ class TranslatorProvider extends ServiceProvider
             $this->commands([
                 CacheTranslationCommand::class,
                 SearchTranslationsCommand::class,
+                ClearUnusedTranslationsCommand::class,
             ]);
         }
     }
