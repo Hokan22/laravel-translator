@@ -44,7 +44,7 @@ class CreateTranslatorTables extends Migration
         Schema::create('translations', function (Blueprint $table)
         {
             $table->integer('translation_identifier_id')->unsigned();
-            $table->foreign('translation_identifier_id')->references('id')->on('translation_identifiers')->onDelete('no action')->onUpdate('no action');
+            $table->foreign('translation_identifier_id')->references('id')->on('translation_identifiers')->onDelete('cascade')->onUpdate('no action');
 
             $table->string('locale', 5);
             $table->primary(['translation_identifier_id', 'locale']);
