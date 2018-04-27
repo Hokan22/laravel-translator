@@ -53,11 +53,9 @@ class DatabaseHandler extends DefaultHandler
      *
      * @return void
      */
-    public function refreshCache()
-    {
+    public function refreshCache() {
         $translations = new TranslationIdentifier();
-        $translations = $translations->leftJoin('translations', function($join)
-            {
+        $translations = $translations->leftJoin('translations', function($join) {
                 $join->on('translation_identifiers.id', '=', 'translations.translation_identifier_id')
                     ->where('locale', $this->locale);
             }
@@ -93,8 +91,7 @@ class DatabaseHandler extends DefaultHandler
      * @throws NotFoundResourceException
      * @return integer
      */
-    function getDatabaseID($identifier)
-    {
+    function getDatabaseID($identifier) {
         if (isset($this->translations[$identifier])) {
             return $this->translations[$identifier]->id;
         } else {

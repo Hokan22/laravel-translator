@@ -25,7 +25,7 @@ class CreateTranslatorTables extends Migration
         DB::beginTransaction();
 
         // Create table for storing roles
-        Schema::create('translation_identifiers', function (Blueprint $table) {
+        Schema::create('translation_identifiers', function(Blueprint $table) {
             $table->increments('id')->unique();
             $table->text('identifier');
 
@@ -39,7 +39,7 @@ class CreateTranslatorTables extends Migration
         });
 
         // Create table for storing roles
-        Schema::create('translations', function (Blueprint $table) {
+        Schema::create('translations', function(Blueprint $table) {
             $table->integer('translation_identifier_id')->unsigned();
             $table->foreign('translation_identifier_id')->references('id')->on('translation_identifiers')->onDelete('cascade')->onUpdate('no action');
 

@@ -23,7 +23,7 @@ class TranslatorBladeProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot() {
-        Blade::directive('translate', function ($expression) {
+        Blade::directive('translate', function($expression) {
 
                 $expression = $this->stripParentheses($expression);
 
@@ -32,7 +32,7 @@ class TranslatorBladeProvider extends ServiceProvider
             }
         );
 
-        Blade::directive('t', function ($expression) {
+        Blade::directive('t', function($expression) {
 
                 $expression = $this->stripParentheses($expression);
 

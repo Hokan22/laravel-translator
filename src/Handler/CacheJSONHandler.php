@@ -36,15 +36,13 @@ class CacheJSONHandler extends DefaultHandler
      * @throws TranslationNotInCacheException
      * @return string returns the found translation for locale and identifier
      */
-    public function getTranslation($identifier, $group = 'default')
-    {
+    public function getTranslation($identifier, $group = 'default') {
         // NOTE: This should never trigger the addition of the identifier to the database!
         // Because the cache will not be updated automatically.
         // the same identifier will not be found twice in the cache, which will result in a duplicate key sql error.
         if (isset($this->translations[$group][$identifier])) {
             return $this->translations[$group][$identifier];
-        }
-        else {
+        } else {
             throw new TranslationNotInCacheException("The translation identifier '" . $identifier . "' could not be found in Cache");
         }
     }
@@ -55,8 +53,7 @@ class CacheJSONHandler extends DefaultHandler
      * @param string $group
      * @throws TranslationCacheNotFound
      */
-    public function refreshCache($group = 'default')
-    {
+    public function refreshCache($group = 'default') {
         $locale_dir = TranslatorFacade::getConfigValue('cache_path') . $this->locale;
 
         try {
