@@ -62,8 +62,7 @@ class TranslationIdentifier extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function translations()
-    {
+    public function translations() {
         return $this->hasMany(Translations::class);
     }
 

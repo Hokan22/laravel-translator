@@ -8,7 +8,8 @@ use Hokan22\LaravelTranslator\TranslatorFacade;
 use Illuminate\Support\Facades\File;
 use Illuminate\Console\Command;
 
-class ClearUnusedTranslationsCommand extends Command {
+class ClearUnusedTranslationsCommand extends Command
+{
 
     /**
      * The name and signature of the console command.
@@ -56,21 +57,21 @@ class ClearUnusedTranslationsCommand extends Command {
 
         foreach ($aDB as $identifier) {
 
-            if(!in_array($identifier->identifier, $aFiles)) {
+            if (!in_array($identifier->identifier, $aFiles)) {
 
                 $found_as_plain = $this->verifyMissing($identifier->identifier);
 
                 $this->line('');
 
                 if ($found_as_plain) {
-                    $this->warn('\''.$identifier->identifier.'\' was not found withing Translator directives');
+                    $this->warn('\'' . $identifier->identifier . '\' was not found withing Translator directives');
                     $found_plain++;
                 } else {
-                    $this->line('\''.$identifier->identifier.'\' seems to be not used anymore');
+                    $this->line('\'' . $identifier->identifier . '\' seems to be not used anymore');
                     $not_used++;
                 }
 
-                $task = $this->choice('What do you want me to do?', ['Nothing' ,'Remove'], 0);
+                $task = $this->choice('What do you want me to do?', ['Nothing', 'Remove'], 0);
 
                 if ($task === 'Remove') {
                     $identifier->delete();
@@ -80,14 +81,14 @@ class ClearUnusedTranslationsCommand extends Command {
             }
         }
         
-        $this->table(['Num', 'Identifier'],[
-            [$this->found_identifier,  "In DB"],
-            [$not_used,     "Not Found"],
-            [$found_plain,  "Found Plain"],
-            [$removed,  "Removed"],
+        $this->table(['Num', 'Identifier'], [
+            [$this->found_identifier, "In DB"],
+            [$not_used, "Not Found"],
+            [$found_plain, "Found Plain"],
+            [$removed, "Removed"],
         ]);
         
-        $this->info($not_used.' Translations no longer used.');
+        $this->info($not_used . ' Translations no longer used.');
         $this->line('');
 
         $this->info('Finished in: ' . number_format(microtime(true) - $start, 2) . 'sec');
@@ -109,14 +110,14 @@ class ClearUnusedTranslationsCommand extends Command {
             'resources/assets/js',
         ];
 
-        foreach($folders as $folder){
-            $aFiles = array_merge($aFiles, File::allFiles(base_path().'/'.$folder));
+        foreach ($folders as $folder) {
+            $aFiles = array_merge($aFiles, File::allFiles(base_path() . '/' . $folder));
         }
 
         $num_files = count($aFiles);
 
         $this->bar = $this->output->createProgressBar($num_files);
-        $this->bar->setMessage('Analyzing '.$num_files.' files');
+        $this->bar->setMessage('Analyzing ' . $num_files . ' files');
         $this->bar->setFormat('very_verbose');
 
         $pattern = preg_quote($identifier, '/');
@@ -127,15 +128,15 @@ class ClearUnusedTranslationsCommand extends Command {
 
             $extension = $file->getExtension();
 
-            if(in_array($extension, $valid_extensions)){
+            if (in_array($extension, $valid_extensions)) {
 
                 $content = file_get_contents($file);
-                if (preg_match_all($pattern, $content, $matches)){
+                if (preg_match_all($pattern, $content, $matches)) {
                     $this->bar->clear();
-                    $this->warn('\''.$identifier.'\' is used in: \''. $file->getPath().'\'!');
+                    $this->warn('\'' . $identifier . '\' is used in: \'' . $file->getPath() . '\'!');
 
                     foreach ($matches[0] as $match) {
-                         $this->warn($match);
+                            $this->warn($match);
                     }
                     $found = true;
                     $this->bar->display();
@@ -160,8 +161,8 @@ class ClearUnusedTranslationsCommand extends Command {
             'js'        => '/\$filter\(\'translate\'\)\(\'(?\'identifier\'.*?)\'\)/'
         ];
 
-        foreach($this->folders as $folder){
-            $aFiles = array_merge($aFiles, File::allFiles(base_path().'/'.$folder));
+        foreach ($this->folders as $folder) {
+            $aFiles = array_merge($aFiles, File::allFiles(base_path() . '/' . $folder));
         }
 
         //TranslatorFacade::setLocale('de_DE');
@@ -169,20 +170,20 @@ class ClearUnusedTranslationsCommand extends Command {
         $num_files = count($aFiles);
 
         $this->bar = $this->output->createProgressBar($num_files);
-        $this->bar->setMessage('Analyzing '.$num_files.' files');
+        $this->bar->setMessage('Analyzing ' . $num_files . ' files');
         $this->bar->setFormat('very_verbose');
 
         foreach ($aFiles as $file) {
 
             $extension = $file->getExtension();
 
-            if(in_array($extension, $this->extensions)){
+            if (in_array($extension, $this->extensions)) {
                 $content = file_get_contents($file);
 
                 foreach ($regexes as $key => $regex) {
                     preg_match_all($regex, $content, $result, PREG_SET_ORDER);
 
-                    if(!empty($result[0])){
+                    if (!empty($result[0])) {
                         foreach ($result as $item) {
                             $this->found_identifier++;
                             $return[] = $item['identifier'];
@@ -196,7 +197,7 @@ class ClearUnusedTranslationsCommand extends Command {
         $this->bar->finish();
         $this->line('');
 
-        $this->info($this->found_identifier.' Translations found.');
+        $this->info($this->found_identifier . ' Translations found.');
 
         return $return;
     }
@@ -206,9 +207,9 @@ class ClearUnusedTranslationsCommand extends Command {
      *
      * @return TranslationIdentifier|\Illuminate\Database\Eloquent\Collection|static[]
      */
-    private function loadFromDB () {
+    private function loadFromDB() {
         // Get all Texts with translations for the given locale
-        $trans_identifier =   TranslationIdentifier::select(['id', 'identifier'])->get();
+        $trans_identifier = TranslationIdentifier::select(['id', 'identifier'])->get();
 
         return $trans_identifier;
     }

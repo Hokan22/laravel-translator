@@ -27,16 +27,14 @@ class TranslatorAdminController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
-    {
+    public function index() {
         $search = Input::get('search', '');
         $locale = Input::get('locale', '');
 
         $query = TranslationIdentifier::with('translations');
 
         if ($locale != '') {
-            $query = $query->whereDoesntHave('translations', function($query) use ($locale)
-                {
+            $query = $query->whereDoesntHave('translations', function($query) use ($locale) {
                     $query->where('translations.locale', 'like', $locale);
                 }
             );

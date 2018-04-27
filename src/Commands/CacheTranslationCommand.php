@@ -107,12 +107,10 @@ class CacheTranslationCommand extends Command
      * @param string $locale The locale from which the translations to load
      * @return TranslationIdentifier|\Illuminate\Database\Eloquent\Collection|static[]
      */
-    protected function loadFromDB($locale)
-    {
+    protected function loadFromDB($locale) {
         $trans_identifier = new TranslationIdentifier();
 
-        $trans_identifier = $trans_identifier->with('translations')->whereHas('translations', function($item) use ($locale)
-        {
+        $trans_identifier = $trans_identifier->with('translations')->whereHas('translations', function($item) use ($locale) {
             return $item->where('locale', $locale);
         }
         )->orWhereHas('translations', null, '<=', 0)

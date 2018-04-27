@@ -23,8 +23,7 @@ class TranslatorProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register()
-    {
+    public function register() {
         $this->mergeConfigFrom(__DIR__ . '/../config/translator.php', 'translator');
 
         $this->app->singleton('Translator', function() {
@@ -36,8 +35,7 @@ class TranslatorProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot()
-    {
+    public function boot() {
         $this->publishes([
                 __DIR__ . '/../config/translator.php' => config_path('translator.php'),
             ],

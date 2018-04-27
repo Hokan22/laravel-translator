@@ -182,7 +182,7 @@ class Translator
 
             $keys = [];
             if (is_array($parameters)) {
-                foreach($parameters as $key => $value) {
+                foreach ($parameters as $key => $value) {
                     $keys[] = $key;
                 }
             }
