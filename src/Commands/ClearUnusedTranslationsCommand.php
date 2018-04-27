@@ -3,6 +3,7 @@
 namespace Hokan22\LaravelTranslator\Commands;
 
 use Hokan22\LaravelTranslator\Models\TranslationIdentifier;
+use Hokan22\LaravelTranslator\Models\Translations;
 use Hokan22\LaravelTranslator\TranslatorFacade;
 use Illuminate\Support\Facades\File;
 use Illuminate\Console\Command;
@@ -55,24 +56,25 @@ class ClearUnusedTranslationsCommand extends Command {
 
         foreach ($aDB as $identifier) {
 
-            if(!in_array($identifier, $aFiles)) {
+            if(!in_array($identifier->identifier, $aFiles)) {
 
-                $found_as_plain = $this->verifyMissing($identifier);
+                $found_as_plain = $this->verifyMissing($identifier->identifier);
 
                 $this->line('');
 
                 if ($found_as_plain) {
-                    $this->warn('\''.$identifier.'\' was not found withing Translator directives');
+                    $this->warn('\''.$identifier->identifier.'\' was not found withing Translator directives');
                     $found_plain++;
                 } else {
-                    $this->line('\''.$identifier.'\' seems to be not used anymore');
+                    $this->line('\''.$identifier->identifier.'\' seems to be not used anymore');
                     $not_used++;
                 }
 
                 $task = $this->choice('What do you want me to do?', ['Nothing' ,'Remove'], 0);
 
                 if ($task === 'Remove') {
-                    $this->warn('Translation would now be removed');
+                    $identifier->delete();
+                    Translations::where('translation_identifier_id', $identifier->id)->delete();
                     $removed++;
                 }
             }
@@ -162,7 +164,7 @@ class ClearUnusedTranslationsCommand extends Command {
             $aFiles = array_merge($aFiles, File::allFiles(base_path().'/'.$folder));
         }
 
-        TranslatorFacade::setLocale('de_DE');
+        //TranslatorFacade::setLocale('de_DE');
 
         $num_files = count($aFiles);
 
@@ -206,7 +208,7 @@ class ClearUnusedTranslationsCommand extends Command {
      */
     private function loadFromDB () {
         // Get all Texts with translations for the given locale
-        $trans_identifier =   TranslationIdentifier::pluck('identifier')->all();
+        $trans_identifier =   TranslationIdentifier::select(['id', 'identifier'])->get();
 
         return $trans_identifier;
     }
