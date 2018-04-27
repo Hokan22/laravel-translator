@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Fixes;
+namespace Hokan22\LaravelTranslator\Commands;
 
 use Hokan22\LaravelTranslator\Models\TranslationIdentifier;
 use Hokan22\LaravelTranslator\TranslatorFacade;
@@ -14,7 +14,7 @@ class ClearUnusedTranslationsCommand extends Command {
      *
      * @var string
      */
-    protected $signature = 'fix:schueco:add_missing_positions';
+    protected $signature = 'translator:clear-unused';
 
     /**
      * The console command description.
@@ -25,6 +25,12 @@ class ClearUnusedTranslationsCommand extends Command {
 
     protected $cache = [];
 
+    protected $found_identifier = 0;
+
+    protected $folders;
+    protected $extensions;
+
+
     /**
      * Create a new command instance.
      *
@@ -33,13 +39,15 @@ class ClearUnusedTranslationsCommand extends Command {
         parent::__construct();
     }
 
-    public function handle(){
-
+    public function handle() {
         // Get start time
         $start = microtime(true);
         $not_used = 0;
+        $found_plain = 0;
+        $removed = 0;
 
-        $this->line('');
+        $this->folders = TranslatorFacade::getConfigValue('search_folders');
+        $this->extensions = TranslatorFacade::getConfigValue('search_extensions');
 
         $aFiles = $this->getAllIdentifier();
 
@@ -49,19 +57,34 @@ class ClearUnusedTranslationsCommand extends Command {
 
             if(!in_array($identifier, $aFiles)) {
 
-                $this->line('\''.$identifier.'\' is not used anymore!');
-                $task = $this->choice('What do you want me to do?', ['Nothing', 'Verify' ,'Remove'], 0);
+                $found_as_plain = $this->verifyMissing($identifier);
 
-                if ($task === 'Verify') {
-                    $this->verifyMissing($identifier);
-                    $task = $this->choice('What do you want me to do?', ['Nothing' ,'Remove'], 0);
+                $this->line('');
+
+                if ($found_as_plain) {
+                    $this->warn('\''.$identifier.'\' was not found withing Translator directives');
+                    $found_plain++;
+                } else {
+                    $this->line('\''.$identifier.'\' seems to be not used anymore');
+                    $not_used++;
                 }
 
+                $task = $this->choice('What do you want me to do?', ['Nothing' ,'Remove'], 0);
 
-                $not_used++;
+                if ($task === 'Remove') {
+                    $this->warn('Translation would now be removed');
+                    $removed++;
+                }
             }
         }
-
+        
+        $this->table(['Num', 'Identifier'],[
+            [$this->found_identifier,  "In DB"],
+            [$not_used,     "Not Found"],
+            [$found_plain,  "Found Plain"],
+            [$removed,  "Removed"],
+        ]);
+        
         $this->info($not_used.' Translations no longer used.');
         $this->line('');
 
@@ -69,17 +92,19 @@ class ClearUnusedTranslationsCommand extends Command {
     }
 
     /**
-     * @return boolean
+     * @param $identifier string The Identifier to search
+     * @return boolean boolean True if Identifier was found false if it was not
      */
-    public function verifyMissing($string) {
+    public function verifyMissing($identifier) {
         $aFiles = [];
         $found = false;
 
         $valid_extensions = ['php', 'html', 'js'];
         $folders = [
             'app',
+            'config',
             'resources/views',
-            'resources/assets',
+            'resources/assets/js',
         ];
 
         foreach($folders as $folder){
@@ -92,6 +117,9 @@ class ClearUnusedTranslationsCommand extends Command {
         $this->bar->setMessage('Analyzing '.$num_files.' files');
         $this->bar->setFormat('very_verbose');
 
+        $pattern = preg_quote($identifier, '/');
+        $pattern = "/^.*$pattern.*\$/m";
+
         /** @var File $file */
         foreach ($aFiles as $file) {
 
@@ -100,22 +128,22 @@ class ClearUnusedTranslationsCommand extends Command {
             if(in_array($extension, $valid_extensions)){
 
                 $content = file_get_contents($file);
-                if (str_contains($content, $string)){
+                if (preg_match_all($pattern, $content, $matches)){
                     $this->bar->clear();
-                    $this->warn($string.' is used in: '. $file->getPath());
+                    $this->warn('\''.$identifier.'\' is used in: \''. $file->getPath().'\'!');
+
+                    foreach ($matches[0] as $match) {
+                         $this->warn($match);
+                    }
                     $found = true;
                     $this->bar->display();
                 }
-
             }
             $this->bar->advance();
         }
         $this->bar->finish();
-        $this->line('');
 
-        if (!$found) $this->info($string.' does not occur as plain text!');
-
-        return true;
+        return $found;
     }
 
     /**
@@ -125,21 +153,12 @@ class ClearUnusedTranslationsCommand extends Command {
         $aFiles = [];
         $return = [];
 
-        $found_identifier = 0;
-
-        $valid_extensions = ['php', 'html', 'js'];
-        $folders = [
-            'app',
-            'resources/views',
-            'resources/assets',
-        ];
-
         $regexes = [
-            'default'   => '/(?:[\@|\_]t\()\'(?\'identifier\'.*?)\'(?:\)|(?:, (?\'parameters\'\[.*\]))(?:\)|, \'(?\'locale\'\w*?)\'))/',
+            'default'   => '/(?:[\@|\_]t\()["\'](?\'identifier\'.*?)["\'](?:\)|(?:, (?\'parameters\'\[.*\]))(?:\)|, \'(?\'locale\'\w*?)\'))/',
             'js'        => '/\$filter\(\'translate\'\)\(\'(?\'identifier\'.*?)\'\)/'
         ];
 
-        foreach($folders as $folder){
+        foreach($this->folders as $folder){
             $aFiles = array_merge($aFiles, File::allFiles(base_path().'/'.$folder));
         }
 
@@ -155,7 +174,7 @@ class ClearUnusedTranslationsCommand extends Command {
 
             $extension = $file->getExtension();
 
-            if(in_array($extension, $valid_extensions)){
+            if(in_array($extension, $this->extensions)){
                 $content = file_get_contents($file);
 
                 foreach ($regexes as $key => $regex) {
@@ -163,7 +182,7 @@ class ClearUnusedTranslationsCommand extends Command {
 
                     if(!empty($result[0])){
                         foreach ($result as $item) {
-                            $found_identifier++;
+                            $this->found_identifier++;
                             $return[] = $item['identifier'];
                         }
                     }
@@ -175,7 +194,7 @@ class ClearUnusedTranslationsCommand extends Command {
         $this->bar->finish();
         $this->line('');
 
-        $this->info($found_identifier.' Translations found.');
+        $this->info($this->found_identifier.' Translations found.');
 
         return $return;
     }
