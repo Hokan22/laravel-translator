@@ -110,4 +110,33 @@ return [
     */
     'log_level' =>  'debug',
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Search Folders
+    |--------------------------------------------------------------------------
+    |
+    | Folders where to look for translation when discovering them or checking
+    | or checking if they are still used.
+    |
+    */
+    'search_folders' => [
+        'app',
+        'resources/views',
+        'resources/assets',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Search Extensions
+    |--------------------------------------------------------------------------
+    |
+    | Extensions of files to search
+    |
+    */
+    'search_extensions' => [
+        'php',
+        'html',
+        'js'
+    ],
 ];
