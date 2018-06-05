@@ -116,7 +116,7 @@ return [
     | Search Folders
     |--------------------------------------------------------------------------
     |
-    | Folders where to look for translation when discovering them or checking
+    | Folders where to look for translation when discovering them
     | or checking if they are still used.
     |
     */
