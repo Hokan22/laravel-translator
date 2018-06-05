@@ -151,7 +151,7 @@ class Translator
         } catch (\Exception $exception) {
 
             $this->log($exception, 'error');
-            $this->log('Falling back to DatabaseHandler', 'warning');
+            $this->log('Falling back to DefaultHandler', 'warning');
 
             $oHandler = new DefaultHandler($locale);
         }
