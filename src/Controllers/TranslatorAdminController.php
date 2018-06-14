@@ -144,9 +144,6 @@ class TranslatorAdminController extends Controller
 
             $translation_identifier = $translation_identifiers->find($id);
 
-            $translation_identifier->parameters     = isset($identifier['parameters']) ? explode($id, $identifier['parameters']) : [];
-            $translation_identifier->group          = isset($identifier['group']) ? $identifier['group'] : 'default';
-            $translation_identifier->page_name      = isset($identifier['page_name']) ? $identifier['page_name'] : null;
             $translation_identifier->description    = isset($identifier['description']) ? $identifier['description'] : null;
 
             $translation_identifier->save();
