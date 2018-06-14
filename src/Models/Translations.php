@@ -60,8 +60,7 @@ class Translations extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function translationIdentifier()
-    {
+    public function translationIdentifier() {
         return $this->belongsTo(TranslationIdentifier::class);
     }
 }

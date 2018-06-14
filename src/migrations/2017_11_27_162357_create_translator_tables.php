@@ -21,13 +21,11 @@ class CreateTranslatorTables extends Migration
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         DB::beginTransaction();
 
         // Create table for storing roles
-        Schema::create('translation_identifiers', function (Blueprint $table)
-        {
+        Schema::create('translation_identifiers', function(Blueprint $table) {
             $table->increments('id')->unique();
             $table->text('identifier');
 
@@ -41,8 +39,7 @@ class CreateTranslatorTables extends Migration
         });
 
         // Create table for storing roles
-        Schema::create('translations', function (Blueprint $table)
-        {
+        Schema::create('translations', function(Blueprint $table) {
             $table->integer('translation_identifier_id')->unsigned();
             $table->foreign('translation_identifier_id')->references('id')->on('translation_identifiers')->onDelete('cascade')->onUpdate('no action');
 
@@ -64,8 +61,7 @@ class CreateTranslatorTables extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::drop('translations');
         Schema::drop('translation_identifiers');
     }

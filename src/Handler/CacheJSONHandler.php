@@ -22,8 +22,7 @@ class CacheJSONHandler extends DefaultHandler
      * @param string $locale The locale of the translations
      * @throws TranslationCacheNotFound
      */
-    public function __construct($locale)
-    {
+    public function __construct($locale) {
         parent::__construct($locale);
 
         $this->refreshCache();
@@ -37,16 +36,14 @@ class CacheJSONHandler extends DefaultHandler
      * @throws TranslationNotInCacheException
      * @return string returns the found translation for locale and identifier
      */
-    public function getTranslation($identifier, $group = 'default')
-    {
+    public function getTranslation($identifier, $group = 'default') {
         // NOTE: This should never trigger the addition of the identifier to the database!
         // Because the cache will not be updated automatically.
         // the same identifier will not be found twice in the cache, which will result in a duplicate key sql error.
         if (isset($this->translations[$group][$identifier])) {
             return $this->translations[$group][$identifier];
-        }
-        else {
-            throw new TranslationNotInCacheException("The translation identifier '".$identifier."' could not be found in Cache");
+        } else {
+            throw new TranslationNotInCacheException("The translation identifier '" . $identifier . "' could not be found in Cache");
         }
     }
 
@@ -56,14 +53,13 @@ class CacheJSONHandler extends DefaultHandler
      * @param string $group
      * @throws TranslationCacheNotFound
      */
-    public function refreshCache($group = 'default')
-    {
-        $locale_dir = TranslatorFacade::getConfigValue('cache_path').$this->locale;
+    public function refreshCache($group = 'default') {
+        $locale_dir = TranslatorFacade::getConfigValue('cache_path') . $this->locale;
 
         try {
-            $trans_identifier = json_decode(file_get_contents($locale_dir.'/'.$group.'.json'), true);
+            $trans_identifier = json_decode(file_get_contents($locale_dir . '/' . $group . '.json'), true);
         } catch (\ErrorException $e) {
-            throw new TranslationCacheNotFound("The Translation cache file '".$locale_dir.'/'.$group.'.json'."' could not be found!");
+            throw new TranslationCacheNotFound("The Translation cache file '" . $locale_dir . '/' . $group . '.json' . "' could not be found!");
         }
 
         $this->translations[$group] = $trans_identifier;
@@ -75,8 +71,7 @@ class CacheJSONHandler extends DefaultHandler
      * @param string $group Group of the translations to return
      * @return array|mixed Translations of the given group
      */
-    public function getAllTranslations($group)
-    {
+    public function getAllTranslations($group) {
         return $this->translations[$group];
     }
 }

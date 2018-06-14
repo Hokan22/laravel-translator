@@ -23,11 +23,10 @@ class TranslatorProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register()
-    {
-        $this->mergeConfigFrom(__DIR__.'/../config/translator.php', 'translator');
+    public function register() {
+        $this->mergeConfigFrom(__DIR__ . '/../config/translator.php', 'translator');
 
-        $this->app->singleton('Translator', function () {
+        $this->app->singleton('Translator', function() {
                 return new Translator();
             }
         );
@@ -36,17 +35,16 @@ class TranslatorProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot()
-    {
+    public function boot() {
         $this->publishes([
                 __DIR__ . '/../config/translator.php' => config_path('translator.php'),
             ],
             'config'
         );
 
-        $this->loadMigrationsFrom(__DIR__.'/../migrations/');
-        $this->loadRoutesFrom(__DIR__.'/../resources/routes.php');
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'translator');
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
+        $this->loadRoutesFrom(__DIR__ . '/../resources/routes.php');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'translator');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
