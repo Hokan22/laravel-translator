@@ -91,7 +91,7 @@ class DatabaseHandler extends DefaultHandler
      * @throws NotFoundResourceException
      * @return integer
      */
-    function getDatabaseID($identifier) {
+    public function getDatabaseID($identifier) {
         if (isset($this->translations[$identifier])) {
             return $this->translations[$identifier]->id;
         } else {
