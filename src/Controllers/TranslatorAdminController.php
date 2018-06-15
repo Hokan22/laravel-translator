@@ -108,14 +108,16 @@ class TranslatorAdminController extends Controller
 
             $timestamp = Carbon::now();
 
+            $value = DB::connection()->getPdo()->quote($value);
+
             // Eloquent doesn't support composite keys, therefore a raw query is used
             // This query will create the translation or update the translation if it already exists in the database
-            DB::statement("INSERT INTO `translations` (`translation_identifier_id`, `locale`, `translation`, `updated_at`, `created_at`)
+            DB::insert("INSERT INTO `translations` (`translation_identifier_id`, `locale`, `translation`, `updated_at`, `created_at`)
                             VALUES ($id, '$key', '$value', '$timestamp', '$timestamp') 
                             ON DUPLICATE KEY 
                             UPDATE `translation` = '$value'");
 
-            DB::statement("UPDATE `translation_identifiers` SET `updated_at` = '$timestamp' WHERE `id` LIKE $id");
+            DB::update("UPDATE `translation_identifiers` SET `updated_at` = '$timestamp' WHERE `id` LIKE $id");
         }
 
         return $this->edit($id);
