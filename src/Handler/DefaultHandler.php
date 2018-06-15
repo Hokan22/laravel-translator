@@ -48,7 +48,7 @@ class DefaultHandler
      *
      * @param $locale
      */
-    function __construct($locale) {
+    public function __construct($locale) {
         $this->locale = $locale;
     }
 
@@ -57,7 +57,7 @@ class DefaultHandler
      *
      * @return string
      */
-    function getLocale() {
+    public function getLocale() {
         return $this->locale;
     }
 
@@ -68,7 +68,7 @@ class DefaultHandler
      * @param string $group
      * @return string
      */
-    function getTranslation($identifier, $group) {
+    public function getTranslation($identifier, $group) {
         return $identifier;
     }
 
@@ -77,7 +77,7 @@ class DefaultHandler
      *
      * @return bool
      */
-    function refreshCache() {
+    public function refreshCache() {
         return true;
     }
 
@@ -87,7 +87,7 @@ class DefaultHandler
      * @param string $group
      * @return array
      */
-    function getAllTranslations($group) {
+    public function getAllTranslations($group) {
         return [];
     }
 
