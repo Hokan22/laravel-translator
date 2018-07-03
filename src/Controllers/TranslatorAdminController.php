@@ -113,9 +113,9 @@ class TranslatorAdminController extends Controller
             // Eloquent doesn't support composite keys, therefore a raw query is used
             // This query will create the translation or update the translation if it already exists in the database
             DB::insert("INSERT INTO `translations` (`translation_identifier_id`, `locale`, `translation`, `updated_at`, `created_at`)
-                            VALUES ($id, '$key', '$value', '$timestamp', '$timestamp') 
+                            VALUES ($id, '$key', $value, '$timestamp', '$timestamp') 
                             ON DUPLICATE KEY 
-                            UPDATE `translation` = '$value'");
+                            UPDATE `translation` = $value");
 
             DB::update("UPDATE `translation_identifiers` SET `updated_at` = '$timestamp' WHERE `id` LIKE $id");
         }
