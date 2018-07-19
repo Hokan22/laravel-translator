@@ -91,4 +91,14 @@ class DefaultHandler
         return [];
     }
 
+    /**
+     * Get the DB ID of the Identifier
+     *
+     * @param $identifier
+     * @return integer
+     */
+    public function getDatabaseID($identifier) {
+        return 1;
+    }
+
 }
